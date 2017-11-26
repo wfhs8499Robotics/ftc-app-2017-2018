@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
  * The code is structured as an Iterative OpMode
  */
 
-@TeleOp(name="8944: Simple Teleop", group="TeleOp")
+@TeleOp(name="8944: Driver Mode", group="TeleOp")
 
 public class DriverMode extends OpMode {
 
@@ -20,9 +20,9 @@ public class DriverMode extends OpMode {
     DcMotor frontleftmotor = null;   // Hardware Device Object
     DcMotor frontrightmotor = null;  // Hardware Device Object
     DcMotor liftmotor = null;   // Hardware Device Object
-    Servo leftservo = null;         // Hardware Device Object
-    Servo rightservo = null;         // Hardware Device Object
-    Servo liftrelease = null;         // Hardware Device Object
+    Servo leftgrabber = null;         // Hardware Device Object
+    Servo rightgrabber = null;         // Hardware Device Object
+    Servo jewelpusher = null;         // Hardware Device Object
 
     float LiftPercent = 0.5f;  // Lift Motor:: only use 50 percent power as the default speed at full throttle
     float StickPercent = 0.5f;  // only use 50 percent power as the default speed at full throttle
@@ -44,11 +44,11 @@ public class DriverMode extends OpMode {
     float seanliftmode;
     float driveadjustment;
     float liftadjustment;
-    boolean pushbeaconright = false;
-    boolean pushbeaconleft = false;
+    boolean squeezegrabberright = false;
+    float squeezegrabberleft = 0;
     boolean centerservo = false;
     boolean extendbothservo = false;
-    boolean liftreleasepushed = false;
+    boolean jewelpusherpushed = false;
     boolean bSeanMode = false;
     boolean bFastMode = false;
     boolean bSeanButtonPushed = false;
@@ -75,17 +75,17 @@ public class DriverMode extends OpMode {
         // get the motor objects created
         liftmotor = hardwareMap.dcMotor.get("lift");
         // Get the servo object created
-        leftservo = hardwareMap.servo.get("left button pusher");
-        rightservo = hardwareMap.servo.get("right button pusher");
-        leftservo.setDirection(Servo.Direction.REVERSE);
+        leftgrabber = hardwareMap.servo.get("left grabber");
+        rightgrabber = hardwareMap.servo.get("right grabber");
+        leftgrabber.setDirection(Servo.Direction.REVERSE);
         //position the servo to the minimum position
-        leftservo.setPosition(MIN_POS);
-        rightservo.setPosition(MIN_POS);
+        leftgrabber.setPosition(MIN_POS);
+        rightgrabber.setPosition(MIN_POS);
         // Get the lift release servo object created
-        liftrelease = hardwareMap.servo.get("lift release");
-//        liftrelease.setDirection(Servo.Direction.REVERSE);
+        jewelpusher = hardwareMap.servo.get("jewel pusher");
+//        jewelpusher.setDirection(Servo.Direction.REVERSE);
         //position the servo to Minimum position
-        liftrelease.setPosition(LIFT_MIN_POS);
+        jewelpusher.setPosition(LIFT_MIN_POS);
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Hello Driver - I am ready");    //
         updateTelemetry(telemetry);
@@ -115,14 +115,13 @@ public class DriverMode extends OpMode {
         right = -gamepad1.right_stick_y;
         hypermode = gamepad1.right_trigger;
         seanmode = gamepad1.left_trigger;
-        pushbeaconright = gamepad2.dpad_right;
-        pushbeaconleft = gamepad2.dpad_left;
+        squeezegrabberright = gamepad2.left_bumper;
+        squeezegrabberleft = gamepad2.left_trigger;
         lift = -gamepad2.left_stick_y;
-        centerservo = gamepad2.dpad_down;
-        extendbothservo = gamepad2.dpad_up;
-        hyperliftmode = gamepad2.right_trigger;
-        seanliftmode = gamepad2.left_trigger;
-        liftreleasepushed = gamepad2.y;
+
+//        hyperliftmode = gamepad2.right_trigger;
+//        seanliftmode = gamepad2.left_trigger;
+        jewelpusherpushed = gamepad2.y;
         // if either trigger has started to be pushed, wait til it goes to 0 to toggle modes
         if (hypermode > 0){
             bFastButtonPushed = true;
@@ -166,27 +165,27 @@ public class DriverMode extends OpMode {
             }
         }
         // move the servo forward on the right
-        if (pushbeaconright == true){
-            rightservo.setPosition(MAX_POS);
-            leftservo.setPosition(MIN_POS);
+        if (squeezegrabberright == true){
+            rightgrabber.setPosition(MAX_POS);
+            leftgrabber.setPosition(MIN_POS);
         }
         // move the servo forward on the left
-        if (pushbeaconleft == true){
-            leftservo.setPosition(MAX_POS);
-            rightservo.setPosition(MIN_POS);
+        if (squeezegrabberleft != 0){
+            leftgrabber.setPosition(MAX_POS);
+            rightgrabber.setPosition(MIN_POS);
         }
         // center the servo
         if (centerservo){
-            leftservo.setPosition(MIN_POS);
-            rightservo.setPosition(MIN_POS);
+            leftgrabber.setPosition(MIN_POS);
+            rightgrabber.setPosition(MIN_POS);
         }
         // Extend both servos
         if (extendbothservo){
-            leftservo.setPosition(MAX_POS);
-            rightservo.setPosition(MAX_POS);
+            leftgrabber.setPosition(MAX_POS);
+            rightgrabber.setPosition(MAX_POS);
         }
-        if (liftreleasepushed) {
-            liftrelease.setPosition(LIFT_MAX_POS);
+        if (jewelpusherpushed) {
+            jewelpusher.setPosition(LIFT_MAX_POS);
         }
         // set drive adjustment to the default stick percent
         driveadjustment = StickPercent;
@@ -225,10 +224,10 @@ public class DriverMode extends OpMode {
         telemetry.addData("Lift Sean Mode", bSeanLiftMode);
         telemetry.addData("Lift",  "%.2f", lift * liftadjustment);
 
-        if (pushbeaconright == true){
+        if (squeezegrabberright == true){
             telemetry.addData("servo", "servo right pushed %.2f", MAX_POS);
         }
-        if (pushbeaconleft == true){
+        if (squeezegrabberleft != 0){
             telemetry.addData("servo", "servo left pushed %.2f", MIN_POS);
         }
         if (centerservo){
