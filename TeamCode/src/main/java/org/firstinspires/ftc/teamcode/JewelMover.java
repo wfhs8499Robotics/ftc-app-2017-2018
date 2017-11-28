@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -15,8 +16,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class JewelMover {
 
     ColorSensor colorSensor;
+    Servo jewelpusher;
     // hsvValues is an array that will hold the hue, saturation, and value information.
     float hsvValues[] = {0F, 0F, 0F};
+
+    // settings for the lift release servo
+    static final double LIFT_MAX_POS = 0.50;     // Maximum rotational position
+    static final double LIFT_MIN_POS = 0.05;     // Minimum rotational position
 
     // values is a reference to the hsvValues array.
     final float values[] = hsvValues;
@@ -46,17 +52,25 @@ public class JewelMover {
         // get a reference to our ColorSensor object.
         colorSensor = hwMap.colorSensor.get("color sensor");
 
-
+        jewelpusher = hwMap.servo.get("jewel pusher");
+//        jewelpusher.setDirection(Servo.Direction.REVERSE);
+        //position the servo to Minimum position
+        jewelpusher.setPosition(LIFT_MIN_POS);
 
     }
 
-    public void run(){
+    public void run() {
+
+        jewelpusher.setPosition(LIFT_MAX_POS);
 
         // Set the LED in the beginning
         colorSensor.enableLed(bLedOn);
 
         // convert the RGB values to HSV values.
         Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
+
+        if (side == "RED" && (hsvValues[0] < 100 || hsvValues[0] > 300)) { // red side, red ball
+//  mode in the opposite direction of the color sensor
+        }
     }
 }
-
