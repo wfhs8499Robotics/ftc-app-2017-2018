@@ -27,8 +27,10 @@ public class JewelMover {
     // values is a reference to the hsvValues array.
     final float values[] = hsvValues;
 
-    // bLedOn represents the state of the LED.
+    // bLedOn true state of the LED.
     boolean bLedOn = true;
+    // bLedOn true state of the LED.
+    boolean bLedOff = false;
     /* Local OpMode members. */
 
     // inits
@@ -60,17 +62,34 @@ public class JewelMover {
     }
 
     public void run() {
-
+        //move the arm out between the jewels so we can look at their colors
         jewelpusher.setPosition(LIFT_MAX_POS);
 
-        // Set the LED in the beginning
+        // Set the LED on in the beginning
         colorSensor.enableLed(bLedOn);
 
         // convert the RGB values to HSV values.
         Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
 
         if (side == "RED" && (hsvValues[0] < 100 || hsvValues[0] > 300)) { // red side, red ball
-//  mode in the opposite direction of the color sensor
+//  move in the opposite direction of the color sensor
         }
+        if (side == "RED" && (hsvValues[0] > 100 || hsvValues[0] < 300)) { // red side, blue ball
+//  move in the same direction of the color sensor
+        }
+        if (side == "BLUE" && (hsvValues[0] < 100 || hsvValues[0] > 300)) { // blue side, red ball
+//  move in the same direction of the color sensor
+        }
+        if (side == "BLUE" && (hsvValues[0] > 100 || hsvValues[0] < 300)) { // blue side, blue ball
+//  move in the opposite direction of the color sensor
+        }
+        // Set the LED off in the end
+        colorSensor.enableLed(bLedOff);
+
+        //move the arm back to the starting/home position
+        jewelpusher.setPosition(LIFT_MIN_POS);
+
+        //move back into position
+
     }
 }
