@@ -25,6 +25,9 @@ public class JewelMover {
     boolean bLedOn = true;
     /* Local OpMode members. */
 
+    // inits
+
+    String side = null;
     HardwareMap hwMap = null;
     private ElapsedTime period = new ElapsedTime();
 
@@ -33,32 +36,27 @@ public class JewelMover {
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap ahwMap) {
+    public void init(HardwareMap ahwMap, String whichSide) {
         // save reference to HW Map
         hwMap = ahwMap;
 
+        //what side are we on
+        side = whichSide;
+
         // get a reference to our ColorSensor object.
         colorSensor = hwMap.colorSensor.get("color sensor");
+
+
+
+    }
+
+    public void run(){
 
         // Set the LED in the beginning
         colorSensor.enableLed(bLedOn);
 
         // convert the RGB values to HSV values.
         Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
-
-    /*    // send the info back to driver station using telemetry function.
-        telemetry.addData("LED", bLedOn ? "On" : "Off");
-        telemetry.addData("Clear", colorSensor.alpha());
-        telemetry.addData("Red  ", colorSensor.red());
-        telemetry.addData("Green", colorSensor.green());
-        telemetry.addData("Blue ", colorSensor.blue());
-        telemetry.addData("Hue", hsvValues[0]);
-        telemetry.addData("Saturation", hsvValues[1]);
-        telemetry.addData("Value", hsvValues[2]);
-
-        telemetry.update();
-    */
-
     }
 }
 
