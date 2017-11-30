@@ -32,6 +32,9 @@ public class JewelMover {
     // bLedOn true state of the LED.
     boolean bLedOff = false;
     /* Local OpMode members. */
+    TurnWheels turnWheels;
+
+    boolean MovedForward;
 
     // inits
 
@@ -72,16 +75,24 @@ public class JewelMover {
         Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
 
         if (side == "RED" && (hsvValues[0] < 100 || hsvValues[0] > 300)) { // red side, red ball
-//  move in the opposite direction of the color sensor
+        //  move in the opposite direction of the color sensor
+            turnWheels.encoderDrive(.3,-2,-2,10);
+            MovedForward = false;
         }
         if (side == "RED" && (hsvValues[0] > 100 || hsvValues[0] < 300)) { // red side, blue ball
-//  move in the same direction of the color sensor
+        //  move in the same direction of the color sensor
+            turnWheels.encoderDrive(.3,2,2,10);
+            MovedForward = true;
         }
         if (side == "BLUE" && (hsvValues[0] < 100 || hsvValues[0] > 300)) { // blue side, red ball
-//  move in the same direction of the color sensor
+        //  move in the same direction of the color sensor
+            turnWheels.encoderDrive(.3,2,2,10);
+            MovedForward = true;
         }
         if (side == "BLUE" && (hsvValues[0] > 100 || hsvValues[0] < 300)) { // blue side, blue ball
-//  move in the opposite direction of the color sensor
+        //  move in the opposite direction of the color sensor
+            turnWheels.encoderDrive(.3,-2,-2,10);
+            MovedForward = false;
         }
         // Set the LED off in the end
         colorSensor.enableLed(bLedOff);
@@ -90,6 +101,11 @@ public class JewelMover {
         jewelpusher.setPosition(LIFT_MIN_POS);
 
         //move back into position
-
+        if (MovedForward){
+            turnWheels.encoderDrive(.3,-2,-2,10);
+        } else
+        {
+            turnWheels.encoderDrive(.3,2,2,10);
+        }
     }
 }
