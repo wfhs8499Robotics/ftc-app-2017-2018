@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import static java.lang.Thread.sleep;
@@ -39,6 +40,11 @@ public class TurnWheels {
     public TurnWheels(){
     }
 
+    public void init(HardwareMap hwMap){
+        leftmotor = hwMap.dcMotor.get("left motor");
+        leftmotor.setDirection(DcMotor.Direction.REVERSE);
+        rightmotor = hwMap.dcMotor.get("right motor");
+    }
     /*
      *  Method to perform a relative move, based on encoder counts.
      *  Encoders are not reset as the move is based on the current position.

@@ -21,8 +21,8 @@ public class JewelMover {
     float hsvValues[] = {0F, 0F, 0F};
 
     // settings for the lift release servo
-    static final double LIFT_MAX_POS = 0.50;     // Maximum rotational position
-    static final double LIFT_MIN_POS = 0.05;     // Minimum rotational position
+    static final double MOVER_UP = 0.50;     // Maximum rotational position
+    static final double MOVER_OUT = 0.05;     // Minimum rotational position
 
     // values is a reference to the hsvValues array.
     final float values[] = hsvValues;
@@ -60,13 +60,13 @@ public class JewelMover {
         jewelpusher = hwMap.servo.get("jewel pusher");
 //        jewelpusher.setDirection(Servo.Direction.REVERSE);
         //position the servo to Minimum position
-        jewelpusher.setPosition(LIFT_MIN_POS);
+        jewelpusher.setPosition(MOVER_OUT);
 
     }
 
     public void run() {
         //move the arm out between the jewels so we can look at their colors
-        jewelpusher.setPosition(LIFT_MAX_POS);
+        jewelpusher.setPosition(MOVER_UP);
 
         // Set the LED on in the beginning
         colorSensor.enableLed(bLedOn);
@@ -98,7 +98,7 @@ public class JewelMover {
         colorSensor.enableLed(bLedOff);
 
         //move the arm back to the starting/home position
-        jewelpusher.setPosition(LIFT_MIN_POS);
+        jewelpusher.setPosition(MOVER_OUT);
 
         //move back into position
         if (MovedForward){
