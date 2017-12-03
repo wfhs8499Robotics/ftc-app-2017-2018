@@ -65,30 +65,27 @@ public class RedStraight extends LinearOpMode {
     RelicRecoveryVuMark vuMark;
     @Override
     public void runOpMode() {
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
+
         turnWheels.init(hardwareMap);
         cameraOn.init(hardwareMap);
         jewelMover.init(hardwareMap, "RED");
 
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
 
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
-            cameraOn.run(vuMark);
-            jewelMover.run();
-            turnWheels.encoderDrive(.3,24,24, 10);
-            turnWheels.encoderDrive(.3,-12,12,10);
-            turnWheels.encoderDrive(.3,12,12, 10);
-            turnWheels.encoderDrive(.3,12,-12,10);
+        cameraOn.run(vuMark);
+        jewelMover.run();
+        turnWheels.encoderDrive(.3,24,24, 10);
+        turnWheels.encoderDrive(.3,-12,12,10);
+        turnWheels.encoderDrive(.3,12,12, 10);
+        turnWheels.encoderDrive(.3,12,-12,10);
 
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
-            telemetry.update();
-        }
+        // Show the elapsed game time and wheel power.
+        telemetry.addData("Status", "Run Time: " + runtime.toString());
+        telemetry.update();
     }
 }

@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
  * The code is structured as an Iterative OpMode
  */
 
-@TeleOp(name="8944: Driver Mode", group="TeleOp")
+@TeleOp(name="8499: Driver Mode", group="TeleOp")
 
 public class DriverMode extends OpMode {
 
