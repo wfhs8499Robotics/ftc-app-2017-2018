@@ -78,7 +78,11 @@ public class RedStraight extends LinearOpMode {
         runtime.reset();
 
         cameraOn.run(vuMark);
+        telemetry.addData("VuMark", "%s visible", vuMark);
+        telemetry.update();
+
         jewelMover.run();
+
         turnWheels.encoderDrive(.3,24,24, 10);
         turnWheels.encoderDrive(.3,-12,12,10);
         turnWheels.encoderDrive(.3,12,12, 10);
