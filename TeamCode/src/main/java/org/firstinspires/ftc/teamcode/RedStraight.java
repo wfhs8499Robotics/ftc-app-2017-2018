@@ -62,6 +62,7 @@ public class RedStraight extends LinearOpMode {
     TurnWheels turnWheels;
     CameraOn cameraOn;
     JewelMover jewelMover;
+    PlaceGlyph placeGlyph;
     RelicRecoveryVuMark vuMark;
     @Override
     public void runOpMode() {
@@ -69,6 +70,7 @@ public class RedStraight extends LinearOpMode {
         turnWheels.init(hardwareMap);
         cameraOn.init(hardwareMap);
         jewelMover.init(hardwareMap, "RED");
+        placeGlyph.init(hardwareMap);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -87,6 +89,8 @@ public class RedStraight extends LinearOpMode {
         turnWheels.encoderDrive(.3,-12,12,10);
         turnWheels.encoderDrive(.3,12,12, 10);
         turnWheels.encoderDrive(.3,12,-12,10);
+
+        placeGlyph.run(vuMark);
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
