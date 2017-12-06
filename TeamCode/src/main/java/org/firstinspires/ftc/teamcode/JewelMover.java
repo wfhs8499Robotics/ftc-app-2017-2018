@@ -32,7 +32,7 @@ public class JewelMover {
     // bLedOn true state of the LED.
     boolean bLedOff = false;
     /* Local OpMode members. */
-    TurnWheels turnWheels;
+    private TurnWheels turnWheels = new TurnWheels();
 
     boolean MovedForward;
 

@@ -59,16 +59,19 @@ public class RedStraight extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    TurnWheels turnWheels;
-    CameraOn cameraOn;
-    JewelMover jewelMover;
-    PlaceGlyph placeGlyph;
+    private TurnWheels turnWheels = new TurnWheels();
+
+    private CameraOn cameraOn = new CameraOn();
+    private JewelMover jewelMover = new JewelMover();
+    private PlaceGlyph placeGlyph = new PlaceGlyph();
+
     RelicRecoveryVuMark vuMark;
     @Override
     public void runOpMode() {
 
-        turnWheels.init(hardwareMap);
         cameraOn.init(hardwareMap);
+        turnWheels.init(hardwareMap);
+
         jewelMover.init(hardwareMap, "RED");
         placeGlyph.init(hardwareMap);
 
