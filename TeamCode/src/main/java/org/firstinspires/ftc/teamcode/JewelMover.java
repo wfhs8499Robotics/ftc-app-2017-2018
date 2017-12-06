@@ -62,6 +62,8 @@ public class JewelMover {
         //position the servo to Minimum position
         jewelpusher.setPosition(MOVER_OUT);
 
+        turnWheels.init(hwMap);
+
     }
 
     public void run() {
