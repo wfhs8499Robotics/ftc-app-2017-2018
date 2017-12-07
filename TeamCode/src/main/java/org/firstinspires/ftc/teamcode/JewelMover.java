@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
- * Created by mohai on 11/27/2017.
+ *
  */
 
 public class JewelMover {
@@ -56,7 +56,7 @@ public class JewelMover {
 
         // get a reference to our ColorSensor object.
         colorSensor = hwMap.colorSensor.get("color sensor");
-
+        colorSensor.enableLed(bLedOff);
         jewelpusher = hwMap.servo.get("jewel pusher");
 //        jewelpusher.setDirection(Servo.Direction.REVERSE);
         //position the servo to Minimum position
