@@ -82,7 +82,7 @@ public class RedStraight extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        cameraOn.run(vuMark);
+        vuMark = cameraOn.run();
         telemetry.addData("VuMark", "%s visible", vuMark);
         telemetry.update();
 

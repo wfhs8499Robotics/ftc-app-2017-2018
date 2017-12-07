@@ -83,8 +83,8 @@ public void init(HardwareMap hwMap){
 
     }
 
-    public void run(RelicRecoveryVuMark vuMark){
-
+    public RelicRecoveryVuMark run(){
+        RelicRecoveryVuMark vuMark;
         relicTrackables.activate();
 
             /*
@@ -93,7 +93,7 @@ public void init(HardwareMap hwMap){
              * UNKNOWN, LEFT, CENTER, and RIGHT. When a VuMark is visible, something other than
              * UNKNOWN will be returned by {@link RelicRecoveryVuMark#from(VuforiaTrackable)}.
              */
-            vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            return RelicRecoveryVuMark.from(relicTemplate);
 //            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 
                 /* Found an instance of the template. In the actual game, you will probably
