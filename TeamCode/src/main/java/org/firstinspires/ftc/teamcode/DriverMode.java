@@ -67,11 +67,14 @@ public class DriverMode extends OpMode {
          */
         // get the motor objects created
         leftmotor = hardwareMap.dcMotor.get("left motor");
-        leftmotor.setDirection(DcMotor.Direction.REVERSE);
+
         rightmotor = hardwareMap.dcMotor.get("right motor");
+        rightmotor.setDirection(DcMotor.Direction.REVERSE);
+
         frontleftmotor = hardwareMap.dcMotor.get("front left motor");
-        frontleftmotor.setDirection(DcMotor.Direction.REVERSE);
+
         frontrightmotor = hardwareMap.dcMotor.get("front right motor");
+        frontrightmotor.setDirection(DcMotor.Direction.REVERSE);
         // get the motor objects created
         liftmotor = hardwareMap.dcMotor.get("lift");
         // Get the servo object created
@@ -167,12 +170,12 @@ public class DriverMode extends OpMode {
         // move the servo forward on the right
         if (squeezegrabberright == true){
             rightgrabber.setPosition(MAX_POS);
-            leftgrabber.setPosition(MIN_POS);
+//            leftgrabber.setPosition(MIN_POS);
         }
         // move the servo forward on the left
         if (squeezegrabberleft != 0){
             leftgrabber.setPosition(MAX_POS);
-            rightgrabber.setPosition(MIN_POS);
+//            rightgrabber.setPosition(MIN_POS);
         }
         // center the servo
         if (centerservo){

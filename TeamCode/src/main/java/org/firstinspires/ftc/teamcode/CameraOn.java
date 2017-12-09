@@ -25,7 +25,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 public class CameraOn {
 
-    public static final String TAG = "Vuforia VuMark Sample";
+    public static final String TAG = "Vuforia VuMark";
 
     OpenGLMatrix lastLocation = null;
 
