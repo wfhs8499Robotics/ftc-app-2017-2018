@@ -86,7 +86,11 @@ public void init(HardwareMap hwMap){
     public RelicRecoveryVuMark run(){
         RelicRecoveryVuMark vuMark;
         relicTrackables.activate();
-
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
             /*
              * See if any of the instances of {@link relicTemplate} are currently visible.
              * {@link RelicRecoveryVuMark} is an enum which can have the following values:

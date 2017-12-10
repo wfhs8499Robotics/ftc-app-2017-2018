@@ -21,11 +21,14 @@ public class JewelMover {
     float hsvValues[] = {0F, 0F, 0F};
 
     // settings for the lift release servo
-    static final double MOVER_UP = 0.50;     // Maximum rotational position
-    static final double MOVER_OUT = 0.05;     // Minimum rotational position
+    static final double MOVER_UP = 0.02;     // Maximum rotational position
+    static final double MOVER_OUT = 0.48;     // Minimum rotational position
+    static final double MOVER_STEP = 0.02;
 
     // values is a reference to the hsvValues array.
     final float values[] = hsvValues;
+
+    int numbersteps = 0;
 
     // bLedOn true state of the LED.
     boolean bLedOn = true;
@@ -58,9 +61,9 @@ public class JewelMover {
         colorSensor = hwMap.colorSensor.get("color sensor");
         colorSensor.enableLed(bLedOff);
         jewelpusher = hwMap.servo.get("jewel pusher");
-//        jewelpusher.setDirection(Servo.Direction.REVERSE);
+        jewelpusher.setDirection(Servo.Direction.REVERSE);
         //position the servo to Minimum position
-        jewelpusher.setPosition(MOVER_OUT);
+        jewelpusher.setPosition(MOVER_UP);
 
         turnWheels.init(hwMap);
 
@@ -68,11 +71,18 @@ public class JewelMover {
 
     public void run() {
         //move the arm out between the jewels so we can look at their colors
-        jewelpusher.setPosition(MOVER_UP);
+        numbersteps = (int)((MOVER_OUT - MOVER_UP) / MOVER_STEP);
+        for (int i = 0; i <= numbersteps; i++) {
+            jewelpusher.setPosition(MOVER_UP + (i * MOVER_STEP));
+        }
 
         // Set the LED on in the beginning
         colorSensor.enableLed(bLedOn);
-
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         // convert the RGB values to HSV values.
         Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
 
@@ -100,7 +110,10 @@ public class JewelMover {
         colorSensor.enableLed(bLedOff);
 
         //move the arm back to the starting/home position
-        jewelpusher.setPosition(MOVER_OUT);
+        numbersteps = (int)((MOVER_OUT - MOVER_UP) / MOVER_STEP);
+        for (int i = 0; i <= numbersteps; i++) {
+            jewelpusher.setPosition(MOVER_OUT - (i * MOVER_STEP));
+        }
 
         //move back into position
         if (MovedForward){

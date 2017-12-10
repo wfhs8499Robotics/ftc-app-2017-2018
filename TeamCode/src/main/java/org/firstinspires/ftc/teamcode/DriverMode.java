@@ -35,8 +35,8 @@ public class DriverMode extends OpMode {
     static final double LIFT_MIN_POS     =  0.05;     // Minimum rotational position
 
     // all the variables we need
-    double left;
-    double right;
+    double leftpower;
+    double rightpower;
     double lift;
     float hypermode;
     float seanmode;
@@ -114,14 +114,13 @@ public class DriverMode extends OpMode {
     public void loop() {
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
         // get all the gamepad variables
-        left = -gamepad1.left_stick_y;
-        right = -gamepad1.right_stick_y;
+        leftpower = -gamepad1.left_stick_y;
+        rightpower = -gamepad1.right_stick_y;
         hypermode = gamepad1.right_trigger;
         seanmode = gamepad1.left_trigger;
         squeezegrabberright = gamepad2.left_bumper;
         squeezegrabberleft = gamepad2.left_trigger;
         lift = -gamepad2.left_stick_y;
-
 //        hyperliftmode = gamepad2.right_trigger;
 //        seanliftmode = gamepad2.left_trigger;
         jewelpusherpushed = gamepad2.y;
@@ -212,17 +211,17 @@ public class DriverMode extends OpMode {
         }
 
         // set the power of the motor to the stick value multiplied by the adjustment
-        leftmotor.setPower(left * driveadjustment);
-        rightmotor.setPower(right * driveadjustment);
-        frontleftmotor.setPower(left * driveadjustment);
-        frontrightmotor.setPower(right * driveadjustment);
+        leftmotor.setPower(leftpower * driveadjustment);
+        rightmotor.setPower(rightpower * driveadjustment);
+        frontleftmotor.setPower(leftpower * driveadjustment);
+        frontrightmotor.setPower(rightpower * driveadjustment);
         liftmotor.setPower(lift * liftadjustment);
 
         // Tell the driver
         telemetry.addData("Fast Mode", bFastMode);
         telemetry.addData("Sean Mode", bSeanMode);
-        telemetry.addData("left",  "%.2f", left * driveadjustment);
-        telemetry.addData("right", "%.2f", right * driveadjustment);
+        telemetry.addData("left",  "%.2f", leftpower * driveadjustment);
+        telemetry.addData("right", "%.2f", rightpower * driveadjustment);
         telemetry.addData("Lift Fast Mode", bFastLiftMode);
         telemetry.addData("Lift Sean Mode", bSeanLiftMode);
         telemetry.addData("Lift",  "%.2f", lift * liftadjustment);

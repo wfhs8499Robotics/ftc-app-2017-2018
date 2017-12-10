@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -30,10 +31,10 @@ public class TurnWheels {
     static final double     turn90degrees           = completeCircle / 4;
     static final double     turn45degrees           = completeCircle / 8;
 
-    DcMotor leftmotor = null; // Hardware Device Object
-    DcMotor rightmotor = null; // Hardware Device Object
-    DcMotor frontleftmotor = null; // Hardware Device Object
-    DcMotor frontrightmotor = null; // Hardware Device Object
+    static DcMotor leftmotor = null; // Hardware Device Object
+    static DcMotor rightmotor = null; // Hardware Device Object
+    static DcMotor frontleftmotor = null; // Hardware Device Object
+    static DcMotor frontrightmotor = null; // Hardware Device Object
 
     private ElapsedTime runtime = new ElapsedTime();  // used for timing of the encoder run
 
@@ -79,16 +80,26 @@ public class TurnWheels {
             leftmotor.setTargetPosition(newLeftTarget);
             rightmotor.setTargetPosition(newRightTarget);
 
+            if (leftInches < 0)
+                frontleftmotor.setDirection(DcMotor.Direction.REVERSE);
+            else
+                frontleftmotor.setDirection(DcMotor.Direction.FORWARD);
+            if (rightInches < 0)
+                frontrightmotor.setDirection(DcMotor.Direction.FORWARD);
+            else
+                frontrightmotor.setDirection((DcMotor.Direction.REVERSE));
+
             // Turn On RUN_TO_POSITION
             leftmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();
+            frontleftmotor.setPower(Math.abs(speed * .3));
+            frontrightmotor.setPower(Math.abs(speed * .3));
             leftmotor.setPower(Math.abs(speed));
             rightmotor.setPower(Math.abs(speed));
-            frontleftmotor.setPower(Math.abs(speed));
-            frontrightmotor.setPower(Math.abs(speed));
+
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             while ((runtime.seconds() < timeoutS) &&
@@ -96,7 +107,7 @@ public class TurnWheels {
 
                 // Allow time for other processes to run.
                 try {
-                    sleep(50);
+                    sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
