@@ -24,12 +24,14 @@ public class DriverMode extends OpMode {
     Servo rightgrabber = null;         // Hardware Device Object
     Servo jewelpusher = null;         // Hardware Device Object
 
-    float LiftPercent = 0.5f;  // Lift Motor:: only use 50 percent power as the default speed at full throttle
+    float LiftPercent = 0.25f;  // Lift Motor:: only use 50 percent power as the default speed at full throttle
     float StickPercent = 0.5f;  // only use 50 percent power as the default speed at full throttle
     // settings for the Servo
-    static final double MAX_POS     =  0.70;     // Maximum rotational position
-    static final double MIN_POS     =  0.0;     // Minimum rotational position
-    double  position = ((MAX_POS - MIN_POS) / 2) + MIN_POS; // Start at halfway position
+    static final double RIGHT_MAX_POS = 0.70;     // Maximum rotational position
+    static final double RIGHT_MIN_POS = 0.60;     // Minimum rotational position    static final double MAX_POS = 0.70;     // Maximum rotational position
+    static final double LEFT_MAX_POS = 0.60;     // Maximum rotational position
+    static final double LEFT_MIN_POS = 0.50;     // Minimum rotational position
+
     // settings for the lift release servo
     static final double LIFT_MAX_POS     =  0.50;     // Maximum rotational position
     static final double LIFT_MIN_POS     =  0.05;     // Minimum rotational position
@@ -82,8 +84,8 @@ public class DriverMode extends OpMode {
         rightgrabber = hardwareMap.servo.get("right grabber");
         leftgrabber.setDirection(Servo.Direction.REVERSE);
         //position the servo to the minimum position
-        leftgrabber.setPosition(MIN_POS);
-        rightgrabber.setPosition(MIN_POS);
+        leftgrabber.setPosition(LEFT_MIN_POS);
+        rightgrabber.setPosition(RIGHT_MIN_POS);
         // Get the lift release servo object created
         jewelpusher = hardwareMap.servo.get("jewel pusher");
 //        jewelpusher.setDirection(Servo.Direction.REVERSE);
@@ -168,23 +170,27 @@ public class DriverMode extends OpMode {
         }
         // move the servo forward on the right
         if (squeezegrabberright == true){
-            rightgrabber.setPosition(MAX_POS);
+            rightgrabber.setPosition(RIGHT_MAX_POS);
 //            leftgrabber.setPosition(MIN_POS);
+        } else {
+            rightgrabber.setPosition(RIGHT_MIN_POS);
         }
         // move the servo forward on the left
         if (squeezegrabberleft != 0){
-            leftgrabber.setPosition(MAX_POS);
+            leftgrabber.setPosition(LEFT_MAX_POS);
 //            rightgrabber.setPosition(MIN_POS);
+        } else {
+            leftgrabber.setPosition(LEFT_MIN_POS);
         }
         // center the servo
         if (centerservo){
-            leftgrabber.setPosition(MIN_POS);
-            rightgrabber.setPosition(MIN_POS);
+            leftgrabber.setPosition(LEFT_MIN_POS);
+            rightgrabber.setPosition(RIGHT_MIN_POS);
         }
         // Extend both servos
         if (extendbothservo){
-            leftgrabber.setPosition(MAX_POS);
-            rightgrabber.setPosition(MAX_POS);
+            leftgrabber.setPosition(LEFT_MAX_POS);
+            rightgrabber.setPosition(LEFT_MAX_POS);
         }
         if (jewelpusherpushed) {
             jewelpusher.setPosition(LIFT_MAX_POS);
@@ -227,16 +233,16 @@ public class DriverMode extends OpMode {
         telemetry.addData("Lift",  "%.2f", lift * liftadjustment);
 
         if (squeezegrabberright == true){
-            telemetry.addData("servo", "servo right pushed %.2f", MAX_POS);
+            telemetry.addData("servo", "servo right pushed %.2f", RIGHT_MAX_POS);
         }
         if (squeezegrabberleft != 0){
-            telemetry.addData("servo", "servo left pushed %.2f", MIN_POS);
+            telemetry.addData("servo", "servo left pushed %.2f", LEFT_MIN_POS);
         }
         if (centerservo){
-            telemetry.addData("servo", "servo center pushed %.2f", MIN_POS);
+            telemetry.addData("servo", "servo center pushed %.2f", RIGHT_MIN_POS);
         }
         if (extendbothservo){
-            telemetry.addData("servo", "servo extend pushed %.2f", MAX_POS);
+            telemetry.addData("servo", "servo extend pushed %.2f", RIGHT_MAX_POS);
         }
         updateTelemetry(telemetry);
     }
