@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -23,8 +24,11 @@ public class DriverMode extends OpMode {
     Servo leftgrabber = null;         // Hardware Device Object
     Servo rightgrabber = null;         // Hardware Device Object
     Servo jewelpusher = null;         // Hardware Device Object
+    ColorSensor colorSensor = null;
+
 
     float LiftPercent = 0.25f;  // Lift Motor:: only use 50 percent power as the default speed at full throttle
+    float LIFT_LOWER_PERCENT = 0.5f;
     float StickPercent = 0.5f;  // only use 50 percent power as the default speed at full throttle
     // settings for the Servo
     static final double RIGHT_MAX_POS = 0.70;     // Maximum rotational position
@@ -59,6 +63,7 @@ public class DriverMode extends OpMode {
     boolean bFastLiftMode = false;
     boolean bSeanLiftButtonPushed = false;
     boolean bFastLiftButtonPushed = false;
+    boolean bLedOff = false;
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -91,6 +96,11 @@ public class DriverMode extends OpMode {
 //        jewelpusher.setDirection(Servo.Direction.REVERSE);
         //position the servo to Minimum position
         jewelpusher.setPosition(LIFT_MIN_POS);
+
+        // get a reference to our ColorSensor object.
+        colorSensor = hardwareMap.colorSensor.get("color sensor");
+        colorSensor.enableLed(bLedOff);
+
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Hello Driver - I am ready");    //
         updateTelemetry(telemetry);
@@ -116,8 +126,8 @@ public class DriverMode extends OpMode {
     public void loop() {
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
         // get all the gamepad variables
-        leftpower = -gamepad1.left_stick_y;
-        rightpower = -gamepad1.right_stick_y;
+        leftpower = -gamepad1.right_stick_y;
+        rightpower = -gamepad1.left_stick_y;
         hypermode = gamepad1.right_trigger;
         seanmode = gamepad1.left_trigger;
         squeezegrabberright = gamepad2.left_bumper;
@@ -214,6 +224,9 @@ public class DriverMode extends OpMode {
         // change the drive adjustment to slow mode
         if (bSeanLiftMode){
             liftadjustment = LiftPercent * 0.5f;
+        }
+        if (lift < 0){
+            liftadjustment = liftadjustment * LIFT_LOWER_PERCENT;
         }
 
         // set the power of the motor to the stick value multiplied by the adjustment
