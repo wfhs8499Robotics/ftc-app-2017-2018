@@ -74,6 +74,11 @@ public class JewelMover {
         numbersteps = (int)((MOVER_OUT - MOVER_UP) / MOVER_STEP);
         for (int i = 0; i <= numbersteps; i++) {
             jewelpusher.setPosition(MOVER_UP + (i * MOVER_STEP));
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         // Set the LED on in the beginning
@@ -113,6 +118,11 @@ public class JewelMover {
         numbersteps = (int)((MOVER_OUT - MOVER_UP) / MOVER_STEP);
         for (int i = 0; i <= numbersteps; i++) {
             jewelpusher.setPosition(MOVER_OUT - (i * MOVER_STEP));
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         //move back into position

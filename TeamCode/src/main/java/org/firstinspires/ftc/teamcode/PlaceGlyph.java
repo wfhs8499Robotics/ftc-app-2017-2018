@@ -42,21 +42,21 @@ public class PlaceGlyph {
     public void run(RelicRecoveryVuMark vuMark) {
         if (vuMark == RelicRecoveryVuMark.LEFT) {
             // turn
-            turnWheels.encoderDrive(.3, -4, 4, 10);
+            turnWheels.left33();
             //straight
             turnWheels.encoderDrive(.3, 14, 14, 10);
             //turn
-            turnWheels.encoderDrive(.3, 4, -4, 10);
+            turnWheels.right33();
             //straight
             turnWheels.encoderDrive(.3, 6, 6, 10);
         }
         if (vuMark == RelicRecoveryVuMark.RIGHT) {
             // turn
-            turnWheels.encoderDrive(.3, 4, -4, 10);
+            turnWheels.right33();
             //straight
             turnWheels.encoderDrive(.3, 14, 14, 10);
             //turn
-            turnWheels.encoderDrive(.3, -4, 4, 10);
+            turnWheels.left33();
             //straight
             turnWheels.encoderDrive(.3, 6, 6, 10);
         }
@@ -69,7 +69,7 @@ public class PlaceGlyph {
 
         //backup
         turnWheels.encoderDrive(.3, -10, -10, 10);
-        turnWheels.encoderDrive(.3, 24,-24, 10);
+        turnWheels.right180();
         // backup again
         turnWheels.encoderDrive(.3, -10, -10, 10);
     }
