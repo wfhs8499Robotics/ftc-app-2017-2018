@@ -21,8 +21,8 @@ public class JewelMover {
     float hsvValues[] = {0F, 0F, 0F};
 
     // settings for the lift release servo
-    static final double MOVER_UP = 0.02;     // Maximum rotational position
-    static final double MOVER_OUT = 0.48;     // Minimum rotational position
+    static final double MOVER_UP = 0.06;     // Maximum rotational position
+    static final double MOVER_OUT = 0.56;     // Minimum rotational position
     static final double MOVER_STEP = 0.02;
 
     // values is a reference to the hsvValues array.
@@ -61,7 +61,7 @@ public class JewelMover {
         colorSensor = hwMap.colorSensor.get("color sensor");
         colorSensor.enableLed(bLedOff);
         jewelpusher = hwMap.servo.get("jewel pusher");
-        jewelpusher.setDirection(Servo.Direction.REVERSE);
+ //       jewelpusher.setDirection(Servo.Direction.REVERSE);
         //position the servo to Minimum position
         jewelpusher.setPosition(MOVER_UP);
 
