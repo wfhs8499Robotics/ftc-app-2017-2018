@@ -31,10 +31,10 @@ public class TurnWheels {
     static final double     turn90degrees           = completeCircle / 4;
     static final double     turn45degrees           = completeCircle / 8;
 
-    static DcMotor leftmotor = null; // Hardware Device Object
-    static DcMotor rightmotor = null; // Hardware Device Object
-    static DcMotor frontleftmotor = null; // Hardware Device Object
-    static DcMotor frontrightmotor = null; // Hardware Device Object
+    private DcMotor leftmotor = null; // Hardware Device Object
+    private DcMotor rightmotor = null; // Hardware Device Object
+    private DcMotor frontleftmotor = null; // Hardware Device Object
+    private DcMotor frontrightmotor = null; // Hardware Device Object
 
     private ElapsedTime runtime = new ElapsedTime();  // used for timing of the encoder run
 
@@ -46,10 +46,10 @@ public class TurnWheels {
     public void init(HardwareMap hwMap){
         leftmotor = hwMap.dcMotor.get("left motor");
         rightmotor = hwMap.dcMotor.get("right motor");
-        rightmotor.setDirection(DcMotor.Direction.REVERSE);
+        leftmotor.setDirection(DcMotor.Direction.REVERSE);
         frontleftmotor = hwMap.dcMotor.get("front left motor");
         frontrightmotor = hwMap.dcMotor.get("front right motor");
-        frontrightmotor.setDirection(DcMotor.Direction.REVERSE);
+        frontleftmotor.setDirection(DcMotor.Direction.REVERSE);
 
     }
     /*
@@ -74,56 +74,60 @@ public class TurnWheels {
 
         // Ensure that the opmode is still active
 
-            // Determine new target position, and pass to motor controller
-            newLeftTarget = leftmotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTarget = rightmotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            leftmotor.setTargetPosition(newLeftTarget);
-            rightmotor.setTargetPosition(newRightTarget);
+        // Determine new target position, and pass to motor controller
+        newLeftTarget = leftmotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+        newRightTarget = rightmotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+        leftmotor.setTargetPosition(newLeftTarget);
+        rightmotor.setTargetPosition(newRightTarget);
 
-            if (leftInches < 0)
-                frontleftmotor.setDirection(DcMotor.Direction.REVERSE);
-            else
-                frontleftmotor.setDirection(DcMotor.Direction.FORWARD);
-            if (rightInches < 0)
-                frontrightmotor.setDirection(DcMotor.Direction.FORWARD);
-            else
-                frontrightmotor.setDirection((DcMotor.Direction.REVERSE));
+        if (leftInches < 0)
+            frontleftmotor.setDirection(DcMotor.Direction.FORWARD);
+        else
+            frontleftmotor.setDirection(DcMotor.Direction.REVERSE);
+        if (rightInches < 0)
+            frontrightmotor.setDirection(DcMotor.Direction.REVERSE);
+        else
+            frontrightmotor.setDirection((DcMotor.Direction.FORWARD));
 
-            // Turn On RUN_TO_POSITION
-            leftmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Turn On RUN_TO_POSITION
+        leftmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            // reset the timeout time and start motion.
-            runtime.reset();
-            frontleftmotor.setPower(Math.abs(speed * .3));
-            frontrightmotor.setPower(Math.abs(speed * .3));
-            leftmotor.setPower(Math.abs(speed));
-            rightmotor.setPower(Math.abs(speed));
+        // reset the timeout time and start motion.
+        runtime.reset();
+        frontleftmotor.setPower(Math.abs(speed * 0.3));
+        frontrightmotor.setPower(Math.abs(speed * 0.3));
+        leftmotor.setPower(Math.abs(speed));
+        rightmotor.setPower(Math.abs(speed));
 
 
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            while ((runtime.seconds() < timeoutS) &&
-                    (leftmotor.isBusy() && rightmotor.isBusy())) {
+        // keep looping while we are still active, and there is time left, and both motors are running.
+        while ((runtime.seconds() < timeoutS) &&
+                (leftmotor.isBusy() && rightmotor.isBusy())) {
 
-                // Allow time for other processes to run.
-                try {
-                    sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            // Allow time for other processes to run.
+            try {
+                sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+        }
 
-            // Stop all motion;
-            frontleftmotor.setPower(0);
-            frontrightmotor.setPower(0);
-            leftmotor.setPower(0);
-            rightmotor.setPower(0);
+        // Stop all motion;
+        frontleftmotor.setPower(0);
+        frontrightmotor.setPower(0);
+        leftmotor.setPower(0);
+        rightmotor.setPower(0);
 
-            // Turn off RUN_TO_POSITION
-            leftmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            rightmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        // Turn off RUN_TO_POSITION
+        leftmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            //  sleep(250);   // optional pause after each move
+        try {
+            sleep(250);   // optional pause after each move
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
     /*
@@ -139,7 +143,7 @@ public class TurnWheels {
 *      encoderDrive(TURN_SPEED,   12, -12, 4.0);  // S2: Turn Right 12 MMs with 4 Sec timeout
 *      encoderDrive(DRIVE_SPEED, -240, -240, 4.0);  // S3: Reverse 24 MMs with 4 Sec timeout
 *
-*/
+
     public void encoderDriveMM(double speed,
                                double leftMMs, double rightMMs,
                                double timeoutS)  {
@@ -188,6 +192,7 @@ public class TurnWheels {
 
             //  sleep(250);   // optional pause after each move
         }
+*/
     /*
      *  Helper methods to perform a relative turn, based on encoder counts.
      *  Encoders are not reset as the move is based on the current position.

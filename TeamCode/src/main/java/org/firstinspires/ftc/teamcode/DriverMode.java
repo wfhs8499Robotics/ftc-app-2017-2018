@@ -31,7 +31,7 @@ public class DriverMode extends OpMode {
     float LIFT_LOWER_PERCENT = 0.5f;
     float StickPercent = 0.5f;  // only use 50 percent power as the default speed at full throttle
     // settings for the Servo
-    static final double RIGHT_MAX_POS = 0.70;     // Maximum rotational position
+    static final double RIGHT_MAX_POS = 0.80;     // Maximum rotational position
     static final double RIGHT_MIN_POS = 0.60;     // Minimum rotational position    static final double MAX_POS = 0.70;     // Maximum rotational position
     static final double LEFT_MAX_POS = 0.60;     // Maximum rotational position
     static final double LEFT_MIN_POS = 0.50;     // Minimum rotational position
@@ -76,12 +76,12 @@ public class DriverMode extends OpMode {
         leftmotor = hardwareMap.dcMotor.get("left motor");
 
         rightmotor = hardwareMap.dcMotor.get("right motor");
-        rightmotor.setDirection(DcMotor.Direction.REVERSE);
+        leftmotor.setDirection(DcMotor.Direction.REVERSE);
 
         frontleftmotor = hardwareMap.dcMotor.get("front left motor");
 
         frontrightmotor = hardwareMap.dcMotor.get("front right motor");
-        frontrightmotor.setDirection(DcMotor.Direction.REVERSE);
+        frontleftmotor.setDirection(DcMotor.Direction.REVERSE);
         // get the motor objects created
         liftmotor = hardwareMap.dcMotor.get("lift");
         // Get the servo object created
@@ -126,8 +126,8 @@ public class DriverMode extends OpMode {
     public void loop() {
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
         // get all the gamepad variables
-        leftpower = -gamepad1.right_stick_y;
-        rightpower = -gamepad1.left_stick_y;
+        leftpower = -gamepad1.left_stick_y;
+        rightpower = -gamepad1.right_stick_y;
         hypermode = gamepad1.right_trigger;
         seanmode = gamepad1.left_trigger;
         squeezegrabberright = gamepad2.left_bumper;

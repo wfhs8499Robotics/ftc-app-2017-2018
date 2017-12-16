@@ -22,7 +22,7 @@ public class JewelMover {
 
     // settings for the lift release servo
     static final double MOVER_UP = 0.06;     // Maximum rotational position
-    static final double MOVER_OUT = 0.56;     // Minimum rotational position
+    static final double MOVER_OUT = 0.80;     // Minimum rotational position
     static final double MOVER_STEP = 0.02;
 
     // values is a reference to the hsvValues array.
@@ -70,6 +70,10 @@ public class JewelMover {
     }
 
     public void run() {
+
+        // Set the LED on in the beginning
+        colorSensor.enableLed(bLedOn);
+
         //move the arm out between the jewels so we can look at their colors
         numbersteps = (int)((MOVER_OUT - MOVER_UP) / MOVER_STEP);
         for (int i = 0; i <= numbersteps; i++) {
@@ -81,8 +85,7 @@ public class JewelMover {
             }
         }
 
-        // Set the LED on in the beginning
-        colorSensor.enableLed(bLedOn);
+
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -93,22 +96,22 @@ public class JewelMover {
 
         if (side == "RED" && (hsvValues[0] < 100 || hsvValues[0] > 300)) { // red side, red ball
         //  move in the opposite direction of the color sensor
-            turnWheels.encoderDrive(.3,-2,-2,10);
+            turnWheels.encoderDrive(.3,-4,-4,10);
             MovedForward = false;
         }
         if (side == "RED" && (hsvValues[0] > 100 || hsvValues[0] < 300)) { // red side, blue ball
         //  move in the same direction of the color sensor
-            turnWheels.encoderDrive(.3,2,2,10);
+            turnWheels.encoderDrive(.3,4,4,10);
             MovedForward = true;
         }
         if (side == "BLUE" && (hsvValues[0] < 100 || hsvValues[0] > 300)) { // blue side, red ball
         //  move in the same direction of the color sensor
-            turnWheels.encoderDrive(.3,2,2,10);
+            turnWheels.encoderDrive(.3,4,4,10);
             MovedForward = true;
         }
         if (side == "BLUE" && (hsvValues[0] > 100 || hsvValues[0] < 300)) { // blue side, blue ball
         //  move in the opposite direction of the color sensor
-            turnWheels.encoderDrive(.3,-2,-2,10);
+            turnWheels.encoderDrive(.3,-4,-4,10);
             MovedForward = false;
         }
         // Set the LED off in the end
@@ -127,10 +130,11 @@ public class JewelMover {
 
         //move back into position
         if (MovedForward){
-            turnWheels.encoderDrive(.3,-2,-2,10);
-        } else
+            turnWheels.encoderDrive(.3,-4,-4,10);
+        }
+        if (!MovedForward)
         {
-            turnWheels.encoderDrive(.3,2,2,10);
+            turnWheels.encoderDrive(.3,4,4,10);
         }
     }
 }
