@@ -4,12 +4,12 @@
         <ColorSensor name="color sensor" port="0" />
     </DeviceInterfaceModule>
     <MotorController name="Motor Controller 1" serialNumber="AL00VVFB">
-        <TetrixMotor name="front left motor" port="1" />
-        <TetrixMotor name="front right motor" port="2" />
+        <TetrixMotor name="front right motor" port="1" />
+        <TetrixMotor name="front left motor" port="2" />
     </MotorController>
     <MotorController name="Motor Controller 0" serialNumber="AL00VH2L">
-        <TetrixMotor name="left motor" port="1" />
-        <TetrixMotor name="right motor" port="2" />
+        <TetrixMotor name="right motor" port="1" />
+        <TetrixMotor name="left motor" port="2" />
     </MotorController>
     <MotorController name="Motor Controller 2" serialNumber="AL00UXSE">
         <TetrixMotor name="lift" port="2" />
