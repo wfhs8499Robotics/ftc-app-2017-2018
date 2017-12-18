@@ -84,7 +84,7 @@ public class BlueStraight extends LinearOpMode {
         telemetry.addData("VuMark", "%s visible", vuMark);
         telemetry.update();
 
-        //jewelMover.run();
+        jewelMover.run();
 
         turnWheels.encoderDrive(.3,-24,-24, 10);
         turnWheels.left90();
