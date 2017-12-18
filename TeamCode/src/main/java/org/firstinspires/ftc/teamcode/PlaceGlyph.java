@@ -24,7 +24,7 @@ public class PlaceGlyph {
     static final double RIGHT_MIN_POS = 0.60;     // Minimum rotational position    static final double MAX_POS = 0.70;     // Maximum rotational position
     static final double LEFT_MAX_POS = 0.60;     // Maximum rotational position
     static final double LEFT_MIN_POS = 0.50;     // Minimum rotational position
-    TurnWheels turnWheels = new TurnWheels();
+    private TurnWheels turnWheels = new TurnWheels();
 
     /* Constructor */
     public PlaceGlyph() {
@@ -37,6 +37,7 @@ public class PlaceGlyph {
         //position the servo to the minimum position
         leftGrabber.setPosition(LEFT_MIN_POS);
         rightGrabber.setPosition(RIGHT_MIN_POS);
+        turnWheels.init(hwMap);
     }
 
     public void run(RelicRecoveryVuMark vuMark) {

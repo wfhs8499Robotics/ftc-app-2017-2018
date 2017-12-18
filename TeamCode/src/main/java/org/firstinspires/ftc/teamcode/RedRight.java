@@ -77,7 +77,7 @@ public class RedRight extends LinearOpMode {
         telemetry.addData("VuMark", "%s visible", vuMark);
         telemetry.update();
 
-        jewelMover.run();
+        //jewelMover.run();
 
         turnWheels.encoderDrive(.3,36,36, 10);
         turnWheels.right90();

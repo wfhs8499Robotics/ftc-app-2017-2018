@@ -203,7 +203,7 @@ public class DriverMode extends OpMode {
             rightgrabber.setPosition(LEFT_MAX_POS);
         }
         if (jewelpusherpushed) {
-            jewelpusher.setPosition(LIFT_MAX_POS);
+            jewelpusher.setPosition(LIFT_MIN_POS);
         }
         // set drive adjustment to the default stick percent
         driveadjustment = StickPercent;

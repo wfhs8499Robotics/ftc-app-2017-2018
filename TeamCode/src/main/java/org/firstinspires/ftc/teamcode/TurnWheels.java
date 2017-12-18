@@ -198,26 +198,26 @@ public class TurnWheels {
      *  Encoders are not reset as the move is based on the current position.
      */
     public void right90 () {
-        encoderDrive(.3,12,-12,10);
+        encoderDrive(.3,24,-24,10);
     }
 
     public void left90 () {
-        encoderDrive(.3,-12,12,10);
+        encoderDrive(.3,-24,24,10);
     }
 
     public void right180(){
-        encoderDrive(.3, 24,-24, 10);
+        encoderDrive(.3, 48,-48, 10);
     }
 
     public void left180(){
-        encoderDrive(.3, -24,24, 10);
+        encoderDrive(.3, -48,48, 10);
     }
 
     public void right33(){
-        encoderDrive(.3, 4, -4, 10);
+        encoderDrive(.3, 8, -8, 10);
     }
 
     public void left33(){
-        encoderDrive(.3, -4, 4, 10);
+        encoderDrive(.3, -8, 8, 10);
     }
 }
