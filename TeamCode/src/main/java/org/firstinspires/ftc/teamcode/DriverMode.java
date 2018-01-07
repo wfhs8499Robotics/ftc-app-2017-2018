@@ -18,8 +18,6 @@ public class DriverMode extends OpMode {
 
     DcMotor leftmotor = null;   // Hardware Device Object
     DcMotor rightmotor = null;  // Hardware Device Object
-    DcMotor frontleftmotor = null;   // Hardware Device Object
-    DcMotor frontrightmotor = null;  // Hardware Device Object
     DcMotor liftmotor = null;   // Hardware Device Object
     Servo leftgrabber = null;         // Hardware Device Object
     Servo rightgrabber = null;         // Hardware Device Object
@@ -27,14 +25,14 @@ public class DriverMode extends OpMode {
     ColorSensor colorSensor = null;
 
 
-    float LiftPercent = 0.25f;  // Lift Motor:: only use 50 percent power as the default speed at full throttle
+    float LiftPercent = 0.40f;  // Lift Motor:: only use 50 percent power as the default speed at full throttle
     float LIFT_LOWER_PERCENT = 0.5f;
     float StickPercent = 0.5f;  // only use 50 percent power as the default speed at full throttle
     // settings for the Servo
-    static final double RIGHT_MAX_POS = 0.80;     // Maximum rotational position
-    static final double RIGHT_MIN_POS = 0.60;     // Minimum rotational position    static final double MAX_POS = 0.70;     // Maximum rotational position
+    static final double RIGHT_MAX_POS = 0.60;     // Maximum rotational position
+    static final double RIGHT_MIN_POS = 0.39;     // Minimum rotational position    static final double MAX_POS = 0.70;     // Maximum rotational position
     static final double LEFT_MAX_POS = 0.60;     // Maximum rotational position
-    static final double LEFT_MIN_POS = 0.50;     // Minimum rotational position
+    static final double LEFT_MIN_POS = 0.42;     // Minimum rotational position
 
     // settings for the lift release servo
     static final double LIFT_MAX_POS     =  0.50;     // Maximum rotational position
@@ -78,11 +76,6 @@ public class DriverMode extends OpMode {
         rightmotor = hardwareMap.dcMotor.get("right motor");
         leftmotor.setDirection(DcMotor.Direction.REVERSE);
 
-        frontleftmotor = hardwareMap.dcMotor.get("front left motor");
-
-        frontrightmotor = hardwareMap.dcMotor.get("front right motor");
-        frontleftmotor.setDirection(DcMotor.Direction.REVERSE);
-        // get the motor objects created
         liftmotor = hardwareMap.dcMotor.get("lift");
         // Get the servo object created
         leftgrabber = hardwareMap.servo.get("left grabber");
@@ -232,8 +225,6 @@ public class DriverMode extends OpMode {
         // set the power of the motor to the stick value multiplied by the adjustment
         leftmotor.setPower(leftpower * driveadjustment);
         rightmotor.setPower(rightpower * driveadjustment);
-        frontleftmotor.setPower(leftpower * driveadjustment);
-        frontrightmotor.setPower(rightpower * driveadjustment);
         liftmotor.setPower(lift * liftadjustment);
 
         // Tell the driver

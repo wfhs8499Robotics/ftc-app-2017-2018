@@ -33,8 +33,6 @@ public class TurnWheels {
 
     private DcMotor leftmotor = null; // Hardware Device Object
     private DcMotor rightmotor = null; // Hardware Device Object
-    private DcMotor frontleftmotor = null; // Hardware Device Object
-    private DcMotor frontrightmotor = null; // Hardware Device Object
 
     private ElapsedTime runtime = new ElapsedTime();  // used for timing of the encoder run
 
@@ -47,9 +45,6 @@ public class TurnWheels {
         leftmotor = hwMap.dcMotor.get("left motor");
         rightmotor = hwMap.dcMotor.get("right motor");
         leftmotor.setDirection(DcMotor.Direction.REVERSE);
-        frontleftmotor = hwMap.dcMotor.get("front left motor");
-        frontrightmotor = hwMap.dcMotor.get("front right motor");
-        frontleftmotor.setDirection(DcMotor.Direction.REVERSE);
 
     }
     /*
@@ -80,23 +75,11 @@ public class TurnWheels {
         leftmotor.setTargetPosition(newLeftTarget);
         rightmotor.setTargetPosition(newRightTarget);
 
-        if (leftInches < 0)
-            frontleftmotor.setDirection(DcMotor.Direction.FORWARD);
-        else
-            frontleftmotor.setDirection(DcMotor.Direction.REVERSE);
-        if (rightInches < 0)
-            frontrightmotor.setDirection(DcMotor.Direction.REVERSE);
-        else
-            frontrightmotor.setDirection((DcMotor.Direction.FORWARD));
-
-        // Turn On RUN_TO_POSITION
         leftmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // reset the timeout time and start motion.
         runtime.reset();
-        frontleftmotor.setPower(Math.abs(speed * 0.3));
-        frontrightmotor.setPower(Math.abs(speed * 0.3));
         leftmotor.setPower(Math.abs(speed));
         rightmotor.setPower(Math.abs(speed));
 
@@ -114,8 +97,6 @@ public class TurnWheels {
         }
 
         // Stop all motion;
-        frontleftmotor.setPower(0);
-        frontrightmotor.setPower(0);
         leftmotor.setPower(0);
         rightmotor.setPower(0);
 
@@ -166,8 +147,6 @@ public class TurnWheels {
             runtime.reset();
             leftmotor.setPower(Math.abs(speed));
             rightmotor.setPower(Math.abs(speed));
-            frontleftmotor.setPower(Math.abs(speed));
-            frontrightmotor.setPower(Math.abs(speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             while ((runtime.seconds() < timeoutS) &&
@@ -182,8 +161,6 @@ public class TurnWheels {
             }
 
             // Stop all motion;
-            frontleftmotor.setPower(0);
-            frontrightmotor.setPower(0);
             leftmotor.setPower(0);
             rightmotor.setPower(0);
             // Turn off RUN_TO_POSITION
