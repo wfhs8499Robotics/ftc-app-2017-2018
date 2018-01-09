@@ -132,8 +132,7 @@ public class JewelMover {
         if (MovedForward){
             turnWheels.encoderDrive(.3,-4,-4,10);
         }
-        if (!MovedForward)
-        {
+        if (!MovedForward){
             turnWheels.encoderDrive(.3,4,4,10);
         }
     }

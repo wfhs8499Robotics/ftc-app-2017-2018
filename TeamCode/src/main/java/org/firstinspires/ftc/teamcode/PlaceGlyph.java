@@ -20,11 +20,11 @@ public class PlaceGlyph {
 
     Servo leftGrabber = null; // Hardware Device Object
     Servo rightGrabber = null; // Hardware Device Object
-    static final double RIGHT_MAX_POS = 0.70;     // Maximum rotational position
-    static final double RIGHT_MIN_POS = 0.60;     // Minimum rotational position    static final double MAX_POS = 0.70;     // Maximum rotational position
+    static final double RIGHT_MAX_POS = 0.60;     // Maximum rotational position
+    static final double RIGHT_MIN_POS = 0.39;     // Minimum rotational position    static final double MAX_POS = 0.70;     // Maximum rotational position
     static final double LEFT_MAX_POS = 0.60;     // Maximum rotational position
-    static final double LEFT_MIN_POS = 0.50;     // Minimum rotational position
-    private TurnWheels turnWheels = new TurnWheels();
+    static final double LEFT_MIN_POS = 0.42;     // Minimum rotational position
+   private TurnWheels turnWheels = new TurnWheels();
 
     /* Constructor */
     public PlaceGlyph() {

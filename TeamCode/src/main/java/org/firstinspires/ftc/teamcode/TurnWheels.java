@@ -22,14 +22,15 @@ public class TurnWheels {
     static final double     WHEEL_DIAMETER_MM       = 101.6 ;   // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1416);
     static final double     COUNTS_PER_MM           = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_MM * 3.1416);
-    static final double     DRIVE_SPEED             = 0.6;
-    static final double     HALF_SPEED              = 0.3;
-    static final double     TURN_SPEED              = 0.5;
+    static final double     DRIVE_SPEED             = 0.5;
+    static final double     HALF_SPEED              = 0.25;
+    static final double     TURN_SPEED              = 0.25;
     // Robot configuration and turning distances
-    static final double     wheelWidth              = 13.0;
-    static final double     completeCircle          = 13.0 * 3.14159;
+    static final double     wheelWidth              = 13.5;
+    static final double     completeCircle          = wheelWidth * 3.14159;
+    static final double     turn180degrees          = completeCircle / 2;
     static final double     turn90degrees           = completeCircle / 4;
-    static final double     turn45degrees           = completeCircle / 8;
+    static final double     turn35degrees           = completeCircle / 10.2857;
 
     private DcMotor leftmotor = null; // Hardware Device Object
     private DcMotor rightmotor = null; // Hardware Device Object
@@ -175,26 +176,26 @@ public class TurnWheels {
      *  Encoders are not reset as the move is based on the current position.
      */
     public void right90 () {
-        encoderDrive(.3,24,-24,10);
+        encoderDrive(TURN_SPEED,turn90degrees,-turn90degrees,10);
     }
 
     public void left90 () {
-        encoderDrive(.3,-24,24,10);
+        encoderDrive(TURN_SPEED,-turn90degrees,turn90degrees,10);
     }
 
     public void right180(){
-        encoderDrive(.3, 48,-48, 10);
+        encoderDrive(TURN_SPEED,turn180degrees,-turn180degrees, 10);
     }
 
     public void left180(){
-        encoderDrive(.3, -48,48, 10);
+        encoderDrive(TURN_SPEED, -turn180degrees,turn180degrees, 10);
     }
 
     public void right33(){
-        encoderDrive(.3, 8, -8, 10);
+        encoderDrive(TURN_SPEED, turn35degrees, -turn35degrees, 10);
     }
 
     public void left33(){
-        encoderDrive(.3, -8, 8, 10);
+        encoderDrive(TURN_SPEED, -turn35degrees, turn35degrees, 10);
     }
 }
