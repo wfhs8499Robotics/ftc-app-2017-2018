@@ -24,7 +24,7 @@ public class PlaceGlyph {
     static final double RIGHT_MIN_POS = 0.39;     // Minimum rotational position    static final double MAX_POS = 0.70;     // Maximum rotational position
     static final double LEFT_MAX_POS = 0.60;     // Maximum rotational position
     static final double LEFT_MIN_POS = 0.42;     // Minimum rotational position
-   private TurnWheels turnWheels = new TurnWheels();
+    private TurnWheels turnWheels = new TurnWheels();
 
     /* Constructor */
     public PlaceGlyph() {
@@ -69,9 +69,9 @@ public class PlaceGlyph {
         rightGrabber.setPosition(RIGHT_MAX_POS);
 
         //backup
-        turnWheels.encoderDrive(.3, -10, -10, 10);
+        turnWheels.encoderDrive(.3, -18, -18, 10);
         turnWheels.right180();
         // backup again
-        turnWheels.encoderDrive(.3, -10, -10, 10);
+        turnWheels.encoderDrive(.3, -5, -5, 10);
     }
 }

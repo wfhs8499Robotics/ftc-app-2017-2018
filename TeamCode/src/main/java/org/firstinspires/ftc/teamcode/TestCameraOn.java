@@ -30,66 +30,35 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 
 /**
- *
- *
+ * This is a program to execute cameraOn tasks to for testing.
  */
 
-@Autonomous(name="Red Straight", group="Autonomous")
+@Autonomous (name="Test cameraOn", group="Autonomous")
 
-public class RedStraight extends LinearOpMode {
-
-    // Declare OpMode members.
-    private ElapsedTime runtime = new ElapsedTime();
-    private TurnWheels turnWheels = new TurnWheels();
+public class TestCameraOn extends LinearOpMode {
 
     private CameraOn cameraOn = new CameraOn();
-    private JewelMover jewelMover = new JewelMover();
-    private PlaceGlyph placeGlyph = new PlaceGlyph();
 
     RelicRecoveryVuMark vuMark;
     @Override
     public void runOpMode() {
 
         cameraOn.init(hardwareMap);
-        turnWheels.init(hardwareMap);
-
-        jewelMover.init(hardwareMap, "RED");
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        runtime.reset();
-
         vuMark = cameraOn.run();
         telemetry.addData("VuMark", "%s visible", vuMark);
-        telemetry.update();
-
-        placeGlyph.init(hardwareMap);
-
-        jewelMover.run();
-
-        turnWheels.encoderDrive(.3,24,24, 10);
-        turnWheels.left90();
-        turnWheels.encoderDrive(.3,12,12, 10);
-        turnWheels.right90();
-
-        placeGlyph.run(vuMark);
-
-        // Show the elapsed game time and wheel power.
-        telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.update();
     }
 }

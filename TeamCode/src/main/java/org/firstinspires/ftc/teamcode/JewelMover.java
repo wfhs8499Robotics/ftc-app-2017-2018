@@ -10,7 +10,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
- *
+ * this run method handles all steps to move the correct jewel off of the platform.
+ *  it handles lowering and raising the arm, turning on the LED on the color sensor, reading
+ *  color from the color sensor, moving the appropriate direction to move ball off the holder
+ *  and resetting the robots position on the balancing stone.
  */
 
 public class JewelMover {

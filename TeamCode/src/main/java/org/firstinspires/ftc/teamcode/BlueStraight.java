@@ -71,7 +71,7 @@ public class BlueStraight extends LinearOpMode {
         turnWheels.init(hardwareMap);
 
         jewelMover.init(hardwareMap, "BLUE");
-        placeGlyph.init(hardwareMap);
+
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -83,6 +83,8 @@ public class BlueStraight extends LinearOpMode {
         vuMark = cameraOn.run();
         telemetry.addData("VuMark", "%s visible", vuMark);
         telemetry.update();
+
+        placeGlyph.init(hardwareMap);
 
         jewelMover.run();
 

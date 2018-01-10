@@ -30,66 +30,75 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 
 /**
+ * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
+ * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
+ * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
+ * class is instantiated on the Robot Controller and executed.
  *
+ * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
+ * It includes all the skeletal structure that all linear OpModes contain.
  *
+ * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
+ * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Red Straight", group="Autonomous")
+@Autonomous(name="Test PlaceGlyph", group="Autonomous")
 
-public class RedStraight extends LinearOpMode {
+public class TestPlaceGlyph extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private TurnWheels turnWheels = new TurnWheels();
 
-    private CameraOn cameraOn = new CameraOn();
-    private JewelMover jewelMover = new JewelMover();
     private PlaceGlyph placeGlyph = new PlaceGlyph();
+
+    boolean vuMarkSet = false;
 
     RelicRecoveryVuMark vuMark;
     @Override
     public void runOpMode() {
-
-        cameraOn.init(hardwareMap);
-        turnWheels.init(hardwareMap);
-
-        jewelMover.init(hardwareMap, "RED");
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        runtime.reset();
+        while (opModeIsActive()) {
+            if (gamepad1.dpad_up) {
+                vuMark = RelicRecoveryVuMark.CENTER;
+                vuMarkSet = true;
+            }
+            if (gamepad1.dpad_left) {
+                vuMark = RelicRecoveryVuMark.LEFT;
+                vuMarkSet = true;
+            }
+            if (gamepad1.dpad_right) {
+                vuMark = RelicRecoveryVuMark.RIGHT;
+                vuMarkSet = true;
+            }
+            if (gamepad1.dpad_down) {
+                vuMark = RelicRecoveryVuMark.UNKNOWN;
+                vuMarkSet = true;
+            }
 
-        vuMark = cameraOn.run();
-        telemetry.addData("VuMark", "%s visible", vuMark);
-        telemetry.update();
-
-        placeGlyph.init(hardwareMap);
-
-        jewelMover.run();
-
-        turnWheels.encoderDrive(.3,24,24, 10);
-        turnWheels.left90();
-        turnWheels.encoderDrive(.3,12,12, 10);
-        turnWheels.right90();
-
-        placeGlyph.run(vuMark);
-
-        // Show the elapsed game time and wheel power.
-        telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.update();
+            if(vuMarkSet){
+                runtime.reset();
+                telemetry.addData("VuMark", "%s visible", vuMark);
+                telemetry.update();
+                placeGlyph.init(hardwareMap);
+                placeGlyph.run(vuMark);
+                vuMarkSet = false;
+                // Show the elapsed game time and wheel power.
+                telemetry.addData("Status", "Run Time: " + runtime.toString());
+                telemetry.update();
+            }
+            idle();
+        }
     }
 }
