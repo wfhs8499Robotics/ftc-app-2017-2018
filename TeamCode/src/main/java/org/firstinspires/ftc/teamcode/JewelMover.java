@@ -40,7 +40,7 @@ public class JewelMover {
     /* Local OpMode members. */
     private TurnWheels turnWheels = new TurnWheels();
 
-    boolean MovedForward;
+    boolean bMovedForward;
 
     // inits
 
@@ -97,25 +97,27 @@ public class JewelMover {
         // convert the RGB values to HSV values.
         Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
 
-        if (side == "RED" && (hsvValues[0] < 100 || hsvValues[0] > 300)) { // red side, red ball
+        if (side == "RED"){
+            if(hsvValues[0] < 100 || hsvValues[0] > 300){ // red side, red ball
         //  move in the opposite direction of the color sensor
-            turnWheels.encoderDrive(.3,-4,-4,10);
-            MovedForward = false;
-        }
-        if (side == "RED" && (hsvValues[0] > 100 || hsvValues[0] < 300)) { // red side, blue ball
+                turnWheels.encoderDrive(.3,-4,-4,10);
+                bMovedForward = false;
+            } else { // red side, blue ball
         //  move in the same direction of the color sensor
-            turnWheels.encoderDrive(.3,4,4,10);
-            MovedForward = true;
+                turnWheels.encoderDrive(.3,4,4,10);
+                bMovedForward = true;
+            }
         }
-        if (side == "BLUE" && (hsvValues[0] < 100 || hsvValues[0] > 300)) { // blue side, red ball
+        if (side == "BLUE"){
+            if(hsvValues[0] < 100 || hsvValues[0] > 300){ // blue side, red ball
         //  move in the same direction of the color sensor
-            turnWheels.encoderDrive(.3,4,4,10);
-            MovedForward = true;
-        }
-        if (side == "BLUE" && (hsvValues[0] > 100 || hsvValues[0] < 300)) { // blue side, blue ball
+                turnWheels.encoderDrive(.3,4,4,10);
+                bMovedForward = true;
+            } else { // blue side, blue ball
         //  move in the opposite direction of the color sensor
-            turnWheels.encoderDrive(.3,-4,-4,10);
-            MovedForward = false;
+                turnWheels.encoderDrive(.3,-4,-4,10);
+                bMovedForward = false;
+            }
         }
         // Set the LED off in the end
         colorSensor.enableLed(bLedOff);
@@ -132,10 +134,10 @@ public class JewelMover {
         }
 
         //move back into position
-        if (MovedForward){
+        if (bMovedForward){
             turnWheels.encoderDrive(.3,-4,-4,10);
         }
-        if (!MovedForward){
+        if (!bMovedForward){
             turnWheels.encoderDrive(.3,4,4,10);
         }
     }
