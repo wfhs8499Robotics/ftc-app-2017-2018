@@ -49,7 +49,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Test PlaceGlyph", group="Autonomous")
+@Autonomous(name="Test JewelMover", group="Autonomous")
 
 public class TestJewelMover extends LinearOpMode {
 

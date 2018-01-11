@@ -48,8 +48,8 @@ public class DriverMode extends OpMode {
     float seanliftmode;
     float driveadjustment;
     float liftadjustment;
-    boolean squeezegrabberright = false;
-    float squeezegrabberleft = 0;
+    boolean opengrabber = false;
+//    float squeezegrabberleft = 0;
     boolean centerservo = false;
     boolean extendbothservo = false;
     boolean jewelpusherpushed = false;
@@ -123,8 +123,8 @@ public class DriverMode extends OpMode {
         rightpower = -gamepad1.right_stick_y;
         hypermode = gamepad1.right_trigger;
         seanmode = gamepad1.left_trigger;
-        squeezegrabberright = gamepad2.left_bumper;
-        squeezegrabberleft = gamepad2.left_trigger;
+        opengrabber = gamepad2.right_bumper;
+//        squeezegrabberleft = gamepad2.left_trigger;
         lift = -gamepad2.left_stick_y;
 //        hyperliftmode = gamepad2.right_trigger;
 //        seanliftmode = gamepad2.left_trigger;
@@ -172,19 +172,15 @@ public class DriverMode extends OpMode {
             }
         }
         // move the servo forward on the right
-        if (squeezegrabberright == true){
+        if (opengrabber == true){
             rightgrabber.setPosition(RIGHT_MAX_POS);
+            leftgrabber.setPosition(LEFT_MAX_POS);
 //            leftgrabber.setPosition(MIN_POS);
         } else {
             rightgrabber.setPosition(RIGHT_MIN_POS);
-        }
-        // move the servo forward on the left
-        if (squeezegrabberleft != 0){
-            leftgrabber.setPosition(LEFT_MAX_POS);
-//            rightgrabber.setPosition(MIN_POS);
-        } else {
             leftgrabber.setPosition(LEFT_MIN_POS);
         }
+
         // center the servo
         if (centerservo){
             leftgrabber.setPosition(LEFT_MIN_POS);
@@ -236,11 +232,8 @@ public class DriverMode extends OpMode {
         telemetry.addData("Lift Sean Mode", bSeanLiftMode);
         telemetry.addData("Lift",  "%.2f", lift * liftadjustment);
 
-        if (squeezegrabberright == true){
-            telemetry.addData("servo", "servo right pushed %.2f", RIGHT_MAX_POS);
-        }
-        if (squeezegrabberleft != 0){
-            telemetry.addData("servo", "servo left pushed %.2f", LEFT_MIN_POS);
+        if (opengrabber == true){
+            telemetry.addData("servo", "servo open pushed %.2f", RIGHT_MAX_POS);
         }
         if (centerservo){
             telemetry.addData("servo", "servo center pushed %.2f", RIGHT_MIN_POS);

@@ -26,7 +26,7 @@ public class TurnWheels {
     static final double     HALF_SPEED              = 0.25;
     static final double     TURN_SPEED              = 0.25;
     // Robot configuration and turning distances
-    static final double     wheelWidth              = 13.5;
+    static final double     wheelWidth              = 13.8125;
     static final double     completeCircle          = wheelWidth * 3.14159;
     static final double     turn180degrees          = completeCircle / 2;
     static final double     turn90degrees           = completeCircle / 4;
