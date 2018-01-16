@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
@@ -19,9 +20,12 @@ public class DriverMode extends OpMode {
     DcMotor leftmotor = null;   // Hardware Device Object
     DcMotor rightmotor = null;  // Hardware Device Object
     DcMotor liftmotor = null;   // Hardware Device Object
+    DcMotor relicExtensionMotor = null;
     Servo leftgrabber = null;         // Hardware Device Object
     Servo rightgrabber = null;         // Hardware Device Object
     Servo jewelpusher = null;         // Hardware Device Object
+    Servo relicGrabberServo = null;
+    CRServo relicRotatorCRServo = null;
     ColorSensor colorSensor = null;
 
 
@@ -38,10 +42,15 @@ public class DriverMode extends OpMode {
     static final double LIFT_MAX_POS     =  0.50;     // Maximum rotational position
     static final double LIFT_MIN_POS     =  0.05;     // Minimum rotational position
 
+    static final double RELIC_GRABBER_OPEN = 0.33;
+    static final double RELIC_GRABBER_CLOSED = 0.00;
+    static final double RELIC_ROTATOR_CRSERVO_POWER = 0.20;
+
     // all the variables we need
     double leftpower;
     double rightpower;
     double lift;
+    double relicExtension;
     float hypermode;
     float seanmode;
     float hyperliftmode;
@@ -62,6 +71,10 @@ public class DriverMode extends OpMode {
     boolean bSeanLiftButtonPushed = false;
     boolean bFastLiftButtonPushed = false;
     boolean bLedOff = false;
+    boolean bRelicGrabber = false;
+    boolean bRelicRotatorForward = false;
+    boolean bRelicRotatorReverse = false;
+
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -77,6 +90,8 @@ public class DriverMode extends OpMode {
         leftmotor.setDirection(DcMotor.Direction.REVERSE);
 
         liftmotor = hardwareMap.dcMotor.get("lift");
+
+        relicExtensionMotor = hardwareMap.dcMotor.get("relic extention motor");
         // Get the servo object created
         leftgrabber = hardwareMap.servo.get("left grabber");
         rightgrabber = hardwareMap.servo.get("right grabber");
@@ -89,6 +104,9 @@ public class DriverMode extends OpMode {
 //        jewelpusher.setDirection(Servo.Direction.REVERSE);
         //position the servo to Minimum position
         jewelpusher.setPosition(LIFT_MIN_POS);
+        relicGrabberServo = hardwareMap.servo.get("relic grabber");
+        relicRotatorCRServo = hardwareMap.crservo.get("relic rotator");
+        relicGrabberServo.setPosition(RELIC_GRABBER_CLOSED);
 
         // get a reference to our ColorSensor object.
         colorSensor = hardwareMap.colorSensor.get("color sensor");
@@ -124,11 +142,16 @@ public class DriverMode extends OpMode {
         hypermode = gamepad1.right_trigger;
         seanmode = gamepad1.left_trigger;
         opengrabber = gamepad2.right_bumper;
+        bRelicGrabber = gamepad2.left_bumper;
 //        squeezegrabberleft = gamepad2.left_trigger;
         lift = -gamepad2.left_stick_y;
 //        hyperliftmode = gamepad2.right_trigger;
 //        seanliftmode = gamepad2.left_trigger;
         jewelpusherpushed = gamepad2.y;
+
+        relicExtension = gamepad2.right_stick_y;
+        bRelicRotatorForward = gamepad2.dpad_up;
+        bRelicRotatorReverse = gamepad2.dpad_down;
         // if either trigger has started to be pushed, wait til it goes to 0 to toggle modes
         if (hypermode > 0){
             bFastButtonPushed = true;
@@ -194,6 +217,21 @@ public class DriverMode extends OpMode {
         if (jewelpusherpushed) {
             jewelpusher.setPosition(LIFT_MIN_POS);
         }
+        if (bRelicGrabber){
+            relicGrabberServo.setPosition(RELIC_GRABBER_OPEN);
+        } else {
+            relicGrabberServo.setPosition(RELIC_GRABBER_CLOSED);
+        }
+        if (bRelicRotatorForward){
+            relicRotatorCRServo.setPower(RELIC_ROTATOR_CRSERVO_POWER);
+        } else {
+            if (bRelicRotatorReverse) {
+                relicRotatorCRServo.setPower(-RELIC_ROTATOR_CRSERVO_POWER);
+            } else {
+                relicRotatorCRServo.setPower(0.00f);
+            }
+        }
+
         // set drive adjustment to the default stick percent
         driveadjustment = StickPercent;
         // change the drive adjustment for hypermode
@@ -222,6 +260,7 @@ public class DriverMode extends OpMode {
         leftmotor.setPower(leftpower * driveadjustment);
         rightmotor.setPower(rightpower * driveadjustment);
         liftmotor.setPower(lift * liftadjustment);
+        relicExtensionMotor.setPower(relicExtension);
 
         // Tell the driver
         telemetry.addData("Fast Mode", bFastMode);
@@ -231,6 +270,7 @@ public class DriverMode extends OpMode {
         telemetry.addData("Lift Fast Mode", bFastLiftMode);
         telemetry.addData("Lift Sean Mode", bSeanLiftMode);
         telemetry.addData("Lift",  "%.2f", lift * liftadjustment);
+        telemetry.addData("relic extension", "%2f", relicExtension);
 
         if (opengrabber == true){
             telemetry.addData("servo", "servo open pushed %.2f", RIGHT_MAX_POS);
