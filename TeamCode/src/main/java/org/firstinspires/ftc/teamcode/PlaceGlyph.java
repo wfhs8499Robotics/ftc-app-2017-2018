@@ -70,8 +70,12 @@ public class PlaceGlyph {
 
         //backup
         turnWheels.encoderDrive(.3, -18, -18, 10);
-        turnWheels.right180();
+        if(vuMark == RelicRecoveryVuMark.LEFT) {
+            turnWheels.left180();
+        } else {
+            turnWheels.right180();
+        }
         // backup again
-        turnWheels.encoderDrive(.3, -5, -5, 10);
+        turnWheels.encoderDrive(.25, -12, -12, 10);
     }
 }
