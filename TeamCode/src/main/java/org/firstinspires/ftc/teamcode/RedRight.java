@@ -80,12 +80,12 @@ public class RedRight extends LinearOpMode {
 
         jewelMover.run();
 
-        turnWheels.encoderDrive(.3,36,36, 10);
+        turnWheels.encoderDrive(.3,30.25,30.25, 10);
         turnWheels.right90();
 
         placeGlyph.run(vuMark);
 
-        // Show the elapsed game time and wheel power.
+        // Show the elapsed game time and wheel power
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.update();
 

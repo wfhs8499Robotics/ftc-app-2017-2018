@@ -44,7 +44,10 @@ public class DriverMode extends OpMode {
 
     static final double RELIC_GRABBER_OPEN = 0.33;
     static final double RELIC_GRABBER_CLOSED = 0.00;
-    static final double RELIC_ROTATOR_CRSERVO_POWER = 0.20;
+    static final double RELIC_ROTATOR_BACK = 0.02;
+    static final double RELIC_ROTATOR_DOWN = -0.02;
+    static final double RELIC_ROTATOR_OUT = -0.12;
+    static final double RELIC_ROTATOR_UP = -0.17;
 
     // all the variables we need
     double leftpower;
@@ -72,8 +75,10 @@ public class DriverMode extends OpMode {
     boolean bFastLiftButtonPushed = false;
     boolean bLedOff = false;
     boolean bRelicGrabber = false;
-    boolean bRelicRotatorForward = false;
+    boolean bRelicRotatorUp = false;
     boolean bRelicRotatorReverse = false;
+    boolean bRelicRotatorZero = false;
+    boolean bRelicRotatorOut = false;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -91,7 +96,7 @@ public class DriverMode extends OpMode {
 
         liftmotor = hardwareMap.dcMotor.get("lift");
 
-        relicExtensionMotor = hardwareMap.dcMotor.get("relic extention motor");
+        relicExtensionMotor = hardwareMap.dcMotor.get("relic extension motor");
         // Get the servo object created
         leftgrabber = hardwareMap.servo.get("left grabber");
         rightgrabber = hardwareMap.servo.get("right grabber");
@@ -106,6 +111,8 @@ public class DriverMode extends OpMode {
         jewelpusher.setPosition(LIFT_MIN_POS);
         relicGrabberServo = hardwareMap.servo.get("relic grabber");
         relicRotatorCRServo = hardwareMap.crservo.get("relic rotator");
+        relicRotatorCRServo.setPower(RELIC_ROTATOR_BACK);
+        bRelicRotatorReverse  = true;
         relicGrabberServo.setPosition(RELIC_GRABBER_CLOSED);
 
         // get a reference to our ColorSensor object.
@@ -150,8 +157,10 @@ public class DriverMode extends OpMode {
         jewelpusherpushed = gamepad2.y;
 
         relicExtension = gamepad2.right_stick_y;
-        bRelicRotatorForward = gamepad2.dpad_up;
-        bRelicRotatorReverse = gamepad2.dpad_down;
+        bRelicRotatorUp = gamepad2.dpad_up;
+        bRelicRotatorZero = gamepad2.dpad_down;
+        bRelicRotatorReverse = gamepad2.dpad_right;
+        bRelicRotatorOut = gamepad2.dpad_left;
         // if either trigger has started to be pushed, wait til it goes to 0 to toggle modes
         if (hypermode > 0){
             bFastButtonPushed = true;
@@ -222,14 +231,18 @@ public class DriverMode extends OpMode {
         } else {
             relicGrabberServo.setPosition(RELIC_GRABBER_CLOSED);
         }
-        if (bRelicRotatorForward){
-            relicRotatorCRServo.setPower(RELIC_ROTATOR_CRSERVO_POWER);
-        } else {
-            if (bRelicRotatorReverse) {
-                relicRotatorCRServo.setPower(-RELIC_ROTATOR_CRSERVO_POWER);
-            } else {
-                relicRotatorCRServo.setPower(0.00f);
-            }
+        if (bRelicRotatorZero) {
+            relicRotatorCRServo.setPower(RELIC_ROTATOR_DOWN);
+//            bRelicRotatorZero = false;
+        }
+        if (bRelicRotatorReverse) {
+            relicRotatorCRServo.setPower(RELIC_ROTATOR_BACK);
+        }
+        if (bRelicRotatorOut){
+            relicRotatorCRServo.setPower(RELIC_ROTATOR_OUT);
+        }
+        if (bRelicRotatorUp){
+            relicRotatorCRServo.setPower(RELIC_ROTATOR_UP);
         }
 
         // set drive adjustment to the default stick percent

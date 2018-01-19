@@ -88,7 +88,7 @@ public class BlueStraight extends LinearOpMode {
 
         jewelMover.run();
 
-        turnWheels.encoderDrive(.3,-24,-24, 10);
+        turnWheels.encoderDrive(.3,-29.75,-29.75, 10);
         turnWheels.left90();
         turnWheels.encoderDrive(.3,12,12, 10);
         turnWheels.left90();
