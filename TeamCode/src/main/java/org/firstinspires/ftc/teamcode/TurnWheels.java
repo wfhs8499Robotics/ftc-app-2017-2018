@@ -32,10 +32,20 @@ public class TurnWheels {
     static final double     turn90degrees           = completeCircle / 4;
     static final double     turn35degrees           = completeCircle / 10.2857;
 
+    static final double INCREMENT   = 0.01;     // amount to ramp motor each CYCLE_MS cycle
+    static final int    CYCLE_MS    =   50;     // period of each cycle
+    static final double MAX_FWD     =  1.0;     // Maximum FWD power applied to motor
+    static final double MAX_REV     = -1.0;     // Maximum REV power applied to motor
+
     private DcMotor leftmotor = null; // Hardware Device Object
     private DcMotor rightmotor = null; // Hardware Device Object
 
+    // Define class members
+    double  power   = 0;
+    boolean rampUp  = true;
+
     private ElapsedTime runtime = new ElapsedTime();  // used for timing of the encoder run
+
 
 
     /* Constructor */
@@ -197,5 +207,43 @@ public class TurnWheels {
 
     public void left33(){
         encoderDrive(TURN_SPEED, -turn35degrees, turn35degrees, 10);
+    }
+
+
+
+
+
+    public void rampMotor(){
+        // Ramp the motors, according to the rampUp variable.
+            if (rampUp) {
+                // Keep stepping up until we hit the max value.
+                power += INCREMENT ;
+                if (power >= MAX_FWD ) {
+                    power = MAX_FWD;
+                    rampUp = !rampUp;   // Switch ramp direction
+                }
+            }
+            else {
+                // Keep stepping down until we hit the min value.
+                power -= INCREMENT ;
+                if (power <= MAX_REV ) {
+                    power = MAX_REV;
+                    rampUp = !rampUp;  // Switch ramp direction
+                }
+            }
+
+            // Set the motor to the new power and pause;
+            leftmotor.setPower(power);
+            rightmotor.setPower(power);
+            try {
+                sleep(CYCLE_MS);   // optional pause after each move
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        // Turn off motor and signal done;
+        leftmotor.setPower(0);
+        rightmotor.setPower(0);
+
     }
 }

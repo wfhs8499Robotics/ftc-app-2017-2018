@@ -24,7 +24,9 @@ public class PlaceGlyph {
     static final double RIGHT_MIN_POS = 0.39;     // Minimum rotational position    static final double MAX_POS = 0.70;     // Maximum rotational position
     static final double LEFT_MAX_POS = 0.60;     // Maximum rotational position
     static final double LEFT_MIN_POS = 0.42;     // Minimum rotational position
+    static final double LIFT_POWER = 0.10;
     private TurnWheels turnWheels = new TurnWheels();
+    private DcMotor liftmotor = null;   // Hardware Device Object
 
     /* Constructor */
     public PlaceGlyph() {
@@ -38,6 +40,8 @@ public class PlaceGlyph {
         leftGrabber.setPosition(LEFT_MIN_POS);
         rightGrabber.setPosition(RIGHT_MIN_POS);
         turnWheels.init(hwMap);
+        liftmotor = hwMap.dcMotor.get("lift");
+        liftmotor.setPower(LIFT_POWER);
     }
 
     public void run(RelicRecoveryVuMark vuMark) {
@@ -67,6 +71,7 @@ public class PlaceGlyph {
         //position the servo to the maximum position
         leftGrabber.setPosition(LEFT_MAX_POS);
         rightGrabber.setPosition(RIGHT_MAX_POS);
+        liftmotor.setPower(0.00);
 
         //backup
         turnWheels.encoderDrive(.3, -18, -18, 10);
