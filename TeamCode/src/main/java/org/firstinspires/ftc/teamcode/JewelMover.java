@@ -64,7 +64,7 @@ public class JewelMover {
         colorSensor = hwMap.colorSensor.get("color sensor");
         colorSensor.enableLed(bLedOff);
         jewelpusher = hwMap.servo.get("jewel pusher");
- //       jewelpusher.setDirection(Servo.Direction.REVERSE);
+        jewelpusher.setDirection(Servo.Direction.REVERSE);
         //position the servo to Minimum position
         jewelpusher.setPosition(MOVER_UP);
 
@@ -72,7 +72,7 @@ public class JewelMover {
 
     }
 
-    public void run() {
+            public void run() {
 
         // Set the LED on in the beginning
         colorSensor.enableLed(bLedOn);

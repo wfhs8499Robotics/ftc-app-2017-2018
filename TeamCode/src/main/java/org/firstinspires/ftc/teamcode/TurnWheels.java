@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import static java.lang.Thread.sleep;
@@ -39,6 +41,8 @@ public class TurnWheels {
 
     private DcMotor leftmotor = null; // Hardware Device Object
     private DcMotor rightmotor = null; // Hardware Device Object
+    private IntegratingGyroscope gyro;
+    private ModernRoboticsI2cGyro modernRoboticsI2cGyro;
 
     // Define class members
     double  power   = 0;
@@ -56,7 +60,27 @@ public class TurnWheels {
         leftmotor = hwMap.dcMotor.get("left motor");
         rightmotor = hwMap.dcMotor.get("right motor");
         leftmotor.setDirection(DcMotor.Direction.REVERSE);
+        // Get a reference to a Modern Robotics gyro object. We use several interfaces
+        // on this object to illustrate which interfaces support which functionality.
+        modernRoboticsI2cGyro = hwMap.get(ModernRoboticsI2cGyro.class, "gyro");
+        gyro = (IntegratingGyroscope)modernRoboticsI2cGyro;
+        // If you're only interested int the IntegratingGyroscope interface, the following will suffice.
+        // gyro = hardwareMap.get(IntegratingGyroscope.class, "gyro");
+        // A similar approach will work for the Gyroscope interface, if that's all you need.
+        // Start calibrating the gyro. This takes a few seconds and is worth performing
+        // during the initialization phase at the start of each opMode.
+        modernRoboticsI2cGyro.calibrate();
 
+        // Wait until the gyro calibration is complete
+
+        while (modernRoboticsI2cGyro.isCalibrating())  {
+            try {
+                sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        modernRoboticsI2cGyro.resetZAxisIntegrator();
     }
     /*
      *  Method to perform a relative move, based on encoder counts.
@@ -242,8 +266,8 @@ public class TurnWheels {
             }
 
         // Turn off motor and signal done;
-        leftmotor.setPower(0);
-        rightmotor.setPower(0);
+//        leftmotor.setPower(0);
+//        rightmotor.setPower(0);
 
     }
 }
