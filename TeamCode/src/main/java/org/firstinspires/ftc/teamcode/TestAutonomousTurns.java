@@ -94,6 +94,10 @@ public class TestAutonomousTurns extends LinearOpMode {
             if(gamepad1.b){
                 turnWheels.encoderDrive(.3,-12,-12,10);
             }
+            if(gamepad1.dpad_up){
+                telemetry.addData("gyro heading", "%s", turnWheels.getRobotHeading());
+                telemetry.update();
+            }
 
             // send the info back to driver station using telemetry function.
             telemetry.addData("Operation", "Complete");

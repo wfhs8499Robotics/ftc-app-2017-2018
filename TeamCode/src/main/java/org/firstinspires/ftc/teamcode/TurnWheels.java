@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -43,7 +44,7 @@ public class TurnWheels {
     private DcMotor rightmotor = null; // Hardware Device Object
     private IntegratingGyroscope gyro;
     private ModernRoboticsI2cGyro modernRoboticsI2cGyro;
-
+    private ModernRoboticsI2cRangeSensor rangeSensor;
     // Define class members
     double  power   = 0;
     boolean rampUp  = true;
@@ -81,6 +82,7 @@ public class TurnWheels {
             }
         }
         modernRoboticsI2cGyro.resetZAxisIntegrator();
+        //*rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
     }
     /*
      *  Method to perform a relative move, based on encoder counts.
@@ -269,5 +271,14 @@ public class TurnWheels {
 //        leftmotor.setPower(0);
 //        rightmotor.setPower(0);
 
+    }
+    public int getRobotHeading(){
+
+        int heading = modernRoboticsI2cGyro.getHeading();
+        return heading;
+    }
+    public void getRangeDistance(){
+
+        rangeSensor.rawUltrasonic();
     }
 }

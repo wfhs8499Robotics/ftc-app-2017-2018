@@ -24,8 +24,8 @@ public class JewelMover {
     float hsvValues[] = {0F, 0F, 0F};
 
     // settings for the lift release servo
-    static final double MOVER_UP = 0.06;     // Maximum rotational position
-    static final double MOVER_OUT = 0.80;     // Minimum rotational position
+    static final double MOVER_UP = 0.00;     // Maximum rotational position
+    static final double MOVER_OUT = 0.70;     // Minimum rotational position
     static final double MOVER_STEP = 0.02;
 
     // values is a reference to the hsvValues array.
@@ -72,7 +72,7 @@ public class JewelMover {
 
     }
 
-            public void run() {
+    public void run() {
 
         // Set the LED on in the beginning
         colorSensor.enableLed(bLedOn);
