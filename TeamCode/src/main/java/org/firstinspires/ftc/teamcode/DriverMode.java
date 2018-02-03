@@ -29,7 +29,7 @@ public class DriverMode extends OpMode {
     ColorSensor colorSensor = null;
 
 
-    float LiftPercent = 0.40f;  // Lift Motor:: only use 50 percent power as the default speed at full throttle
+    float LiftPercent = 0.60f;  // Lift Motor:: only use 50 percent power as the default speed at full throttle
     float LIFT_LOWER_PERCENT = 0.5f;
     float StickPercent = 0.5f;  // only use 50 percent power as the default speed at full throttle
     // settings for the Servo
@@ -40,7 +40,7 @@ public class DriverMode extends OpMode {
 
     // settings for the lift release servo
     static final double LIFT_MAX_POS     =  0.50;     // Maximum rotational position
-    static final double LIFT_MIN_POS     =  0.05;     // Minimum rotational position
+    static final double LIFT_MIN_POS     =  0.00;     // Minimum rotational position
 
     static final double RELIC_GRABBER_OPEN = 0.33;
     static final double RELIC_GRABBER_CLOSED = 0.00;
@@ -106,7 +106,7 @@ public class DriverMode extends OpMode {
         rightgrabber.setPosition(RIGHT_MIN_POS);
         // Get the lift release servo object created
         jewelpusher = hardwareMap.servo.get("jewel pusher");
-//        jewelpusher.setDirection(Servo.Direction.REVERSE);
+        jewelpusher.setDirection(Servo.Direction.REVERSE);
         //position the servo to Minimum position
         jewelpusher.setPosition(LIFT_MIN_POS);
         relicGrabberServo = hardwareMap.servo.get("relic grabber");

@@ -48,6 +48,9 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 @Autonomous(name = "Test Autonomous Turns", group = "Autonomous OpMode")
 public class TestAutonomousTurns extends LinearOpMode {
     private TurnWheels turnWheels = new TurnWheels();
+    static final double     DRIVE_SPEED             = 0.5;
+    static final double     HALF_SPEED              = 0.25;
+    static final double     TURN_SPEED              = 0.25;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -91,14 +94,27 @@ public class TestAutonomousTurns extends LinearOpMode {
             if(gamepad1.y){
                 turnWheels.encoderDrive(.3,12,12,10);
             }
-            if(gamepad1.b){
+             if(gamepad1.b){
                 turnWheels.encoderDrive(.3,-12,-12,10);
             }
             if(gamepad1.dpad_up){
                 telemetry.addData("gyro heading", "%s", turnWheels.getRobotHeading());
                 telemetry.update();
             }
-
+            if(gamepad1.dpad_down) {
+                // Step through each leg of the path,
+                // Note: Reverse movement is obtained by setting a negative distance (not speed)
+                // Put a hold after each turn
+                turnWheels.gyroDrive(DRIVE_SPEED, 48.0, 0.0);    // Drive FWD 48 inches
+                turnWheels.gyroTurn(TURN_SPEED, -45.0);         // Turn  CCW to -45 Degrees
+                turnWheels.gyroHold(TURN_SPEED, -45.0, 0.5);    // Hold -45 Deg heading for a 1/2 second
+                turnWheels.gyroDrive(DRIVE_SPEED, 12.0, -45.0);  // Drive FWD 12 inches at 45 degrees
+                turnWheels.gyroTurn(TURN_SPEED, 45.0);         // Turn  CW  to  45 Degrees
+                turnWheels.gyroHold(TURN_SPEED, 45.0, 0.5);    // Hold  45 Deg heading for a 1/2 second
+                turnWheels.gyroTurn(TURN_SPEED, 0.0);         // Turn  CW  to   0 Degrees
+                turnWheels.gyroHold(TURN_SPEED, 0.0, 1.0);    // Hold  0 Deg heading for a 1 second
+                turnWheels.gyroDrive(DRIVE_SPEED, -48.0, 0.0);    // Drive REV 48 inches
+            }
             // send the info back to driver station using telemetry function.
             telemetry.addData("Operation", "Complete");
             telemetry.update();

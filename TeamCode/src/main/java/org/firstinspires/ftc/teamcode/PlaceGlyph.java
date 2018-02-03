@@ -24,7 +24,8 @@ public class PlaceGlyph {
     static final double RIGHT_MIN_POS = 0.39;     // Minimum rotational position    static final double MAX_POS = 0.70;     // Maximum rotational position
     static final double LEFT_MAX_POS = 0.60;     // Maximum rotational position
     static final double LEFT_MIN_POS = 0.42;     // Minimum rotational position
-    static final double LIFT_POWER = 0.10;
+    static final double LIFT_MAX_POWER = 0.25;
+    static final double LIFT_MIN_POWER = 0.15;
     private TurnWheels turnWheels = new TurnWheels();
     private DcMotor liftmotor = null;   // Hardware Device Object
 
@@ -41,7 +42,13 @@ public class PlaceGlyph {
         rightGrabber.setPosition(RIGHT_MIN_POS);
         turnWheels.init(hwMap);
         liftmotor = hwMap.dcMotor.get("lift");
-        liftmotor.setPower(LIFT_POWER);
+        liftmotor.setPower(LIFT_MAX_POWER);
+        try {
+            sleep(500);   // optional pause after each move
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        liftmotor.setPower(LIFT_MIN_POWER);
     }
 
     public void run(RelicRecoveryVuMark vuMark) {
@@ -67,20 +74,21 @@ public class PlaceGlyph {
         }
         if (vuMark == RelicRecoveryVuMark.CENTER || vuMark == RelicRecoveryVuMark.UNKNOWN) {
             turnWheels.encoderDrive(.3, 17, 17, 10);
-        }
-        //position the servo to the maximum position
-        leftGrabber.setPosition(LEFT_MAX_POS);
-        rightGrabber.setPosition(RIGHT_MAX_POS);
-        liftmotor.setPower(0.00);
 
-        //backup
-        turnWheels.encoderDrive(.3, -18, -18, 10);
-        if(vuMark == RelicRecoveryVuMark.LEFT) {
-            turnWheels.left180();
-        } else {
-            turnWheels.right180();
+            //position the servo to the maximum position
+            liftmotor.setPower(0.00);
+            leftGrabber.setPosition(LEFT_MAX_POS);
+            rightGrabber.setPosition(RIGHT_MAX_POS);
+
+            //backup
+            turnWheels.encoderDrive(.3, -18, -18, 10);
+            if (vuMark == RelicRecoveryVuMark.LEFT) {
+                turnWheels.left180();
+            } else {
+                turnWheels.right180();
+            }
+            // backup again
+            turnWheels.encoderDrive(.25, -12, -12, 10);
         }
-        // backup again
-        turnWheels.encoderDrive(.25, -12, -12, 10);
     }
 }
