@@ -92,10 +92,12 @@ public class TestAutonomousTurns extends LinearOpMode {
                 turnWheels.left180();
             }
             if(gamepad1.y){
-                turnWheels.encoderDrive(.3,12,12,10);
+                turnWheels.gyroDrive(.3,12, turnWheels.getRobotHeading());
+                        //.encoderDrive(.3,12,12,10);
             }
              if(gamepad1.b){
-                turnWheels.encoderDrive(.3,-12,-12,10);
+                turnWheels.gyroDrive(.3, -12, turnWheels.getRobotHeading());
+                        //.encoderDrive(.3,-12,-12,10);
             }
             if(gamepad1.dpad_up){
                 telemetry.addData("gyro heading", "%s", turnWheels.getRobotHeading());

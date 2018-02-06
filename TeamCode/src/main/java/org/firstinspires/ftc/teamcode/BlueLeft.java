@@ -87,7 +87,8 @@ public class BlueLeft extends LinearOpMode {
 
         jewelMover.run();
 
-        turnWheels.encoderDrive(.3,-41.75,-41.75, 10);
+        turnWheels.gyroDrive(.3, -41.75,0);
+                //encoderDrive(.3,-41.75,-41.75, 10);
         turnWheels.right90();
 
         placeGlyph.run(vuMark);

@@ -88,9 +88,11 @@ public class BlueStraight extends LinearOpMode {
 
         jewelMover.run();
 
-        turnWheels.encoderDrive(.3,-29.75,-29.75, 10);
+        turnWheels.gyroDrive(.3,-29.75,0);
+                // encoderDrive(.3,-29.75,-29.75, 10);
         turnWheels.left90();
-        turnWheels.encoderDrive(.3,12,12, 10);
+        turnWheels.gyroDrive(.3,12,turnWheels.getRobotHeading());
+                //encoderDrive(.3,12,12, 10);
         turnWheels.left90();
 
         placeGlyph.run(vuMark);

@@ -26,9 +26,10 @@ public class TurnWheels {
     static final double     WHEEL_DIAMETER_MM       = 101.6 ;   // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1416);
     static final double     COUNTS_PER_MM           = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_MM * 3.1416);
-    static final double     DRIVE_SPEED             = 0.5;
-    static final double     HALF_SPEED              = 0.25;
-    static final double     TURN_SPEED              = 0.25;
+    static final double     DRIVE_SPEED             = 0.25;
+    static final double     HALF_SPEED              = DRIVE_SPEED / 2;
+    static final double     TURN_SPEED              = 0.125;
+    static final double     HOLD_SPEED              = TURN_SPEED / 2;
     // Robot configuration and turning distances
     static final double     wheelWidth              = 13.8125;
     static final double     completeCircle          = wheelWidth * 3.14159;
@@ -53,6 +54,7 @@ public class TurnWheels {
     // Define class members
     double  power   = 0;
     boolean rampUp  = true;
+    int saveHeading;
 
     private ElapsedTime runtime = new ElapsedTime();  // used for timing of the encoder run
 
@@ -103,7 +105,7 @@ public class TurnWheels {
      *      encoderDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
      *
      */
-    public void encoderDrive(double speed,
+/*    public void encoderDrive(double speed,
                              double leftInches, double rightInches,
                              double timeoutS){
         int newLeftTarget;
@@ -153,7 +155,8 @@ public class TurnWheels {
         }
 
     }
-    /*
+*/
+ /*
 *  Method to perform a relative move, based on encoder counts.
 *  Encoders are not reset as the move is based on the current position.
 *  Move will stop if any of three conditions occur:
@@ -217,32 +220,46 @@ public class TurnWheels {
      *  Encoders are not reset as the move is based on the current position.
      */
     public void right90 () {
-        encoderDrive(TURN_SPEED,turn90degrees,-turn90degrees,10);
+        saveHeading = modernRoboticsI2cGyro.getHeading();
+        gyroTurn(TURN_SPEED, saveHeading - 90);
+        gyroHold(HOLD_SPEED, saveHeading - 90, 0.5);
+        //encoderDrive(TURN_SPEED,turn90degrees,-turn90degrees,10);
     }
 
     public void left90 () {
-        encoderDrive(TURN_SPEED,-turn90degrees,turn90degrees,10);
+        saveHeading = modernRoboticsI2cGyro.getHeading();
+        gyroTurn(TURN_SPEED,saveHeading + 90);
+        gyroHold(HOLD_SPEED, saveHeading + 90, 0.5);
+        // encoderDrive(TURN_SPEED,-turn90degrees,turn90degrees,10);
     }
 
     public void right180(){
-        encoderDrive(TURN_SPEED,turn180degrees,-turn180degrees, 10);
+        saveHeading = modernRoboticsI2cGyro.getHeading();
+        gyroTurn(TURN_SPEED, saveHeading - 180);
+        gyroHold(HOLD_SPEED, saveHeading - 180, 0.5);
+        //encoderDrive(TURN_SPEED,turn180degrees,-turn180degrees, 10);
     }
 
     public void left180(){
-        encoderDrive(TURN_SPEED, -turn180degrees,turn180degrees, 10);
+        saveHeading = modernRoboticsI2cGyro.getHeading();
+        gyroTurn(TURN_SPEED, saveHeading + 180);
+        gyroHold(HOLD_SPEED, saveHeading + 180, 0.5);
+        //encoderDrive(TURN_SPEED, -turn180degrees,turn180degrees, 10);
     }
 
     public void right33(){
-        encoderDrive(TURN_SPEED, turn35degrees, -turn35degrees, 10);
+        saveHeading = modernRoboticsI2cGyro.getHeading();
+        gyroTurn(TURN_SPEED, saveHeading - 35);
+        gyroHold(HOLD_SPEED, saveHeading - 35, 0.5);
+        // encoderDrive(TURN_SPEED, turn35degrees, -turn35degre35es, 10);
     }
 
     public void left33(){
-        encoderDrive(TURN_SPEED, -turn35degrees, turn35degrees, 10);
+        saveHeading = modernRoboticsI2cGyro.getHeading();
+        gyroTurn(TURN_SPEED, saveHeading + 35);
+        gyroHold(HOLD_SPEED, saveHeading + 35, 0.5);
+        //encoderDrive(TURN_SPEED, -turn35degrees, turn35degrees, 10);
     }
-
-
-
-
 
     public void rampMotor(){
         // Ramp the motors, according to the rampUp variable.
@@ -286,54 +303,6 @@ public class TurnWheels {
 
         rangeSensor.rawUltrasonic();
     }
-
-/*    // Ensure the robot it stationary, then reset the encoders and calibrate the gyro.
-        leftmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-    // Send telemetry message to alert driver that we are calibrating;
-        telemetry.addData(">", "Calibrating Gyro");    //
-        telemetry.update();
-
-        gyro.calibrate();
-
-    // make sure the gyro is calibrated before continuing
-        while (!isStopRequested() && gyro.isCalibrating())  {
-        sleep(50);
-        idle();
-    }
-
-        telemetry.addData(">", "Robot Ready.");    //
-        telemetry.update();
-
-        leftmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-    // Wait for the game to start (Display Gyro value), and reset gyro before we move..
-        while (!isStarted()) {
-        telemetry.addData(">", "Robot Heading = %d", gyro.getIntegratedZValue());
-        telemetry.update();
-    }
-
-        gyro.resetZAxisIntegrator();
-
-    // Step through each leg of the path,
-    // Note: Reverse movement is obtained by setting a negative distance (not speed)
-    // Put a hold after each turn
-    gyroDrive(DRIVE_SPEED, 48.0, 0.0);    // Drive FWD 48 inches
-    gyroTurn( TURN_SPEED, -45.0);         // Turn  CCW to -45 Degrees
-    gyroHold( TURN_SPEED, -45.0, 0.5);    // Hold -45 Deg heading for a 1/2 second
-    gyroDrive(DRIVE_SPEED, 12.0, -45.0);  // Drive FWD 12 inches at 45 degrees
-    gyroTurn( TURN_SPEED,  45.0);         // Turn  CW  to  45 Degrees
-    gyroHold( TURN_SPEED,  45.0, 0.5);    // Hold  45 Deg heading for a 1/2 second
-    gyroTurn( TURN_SPEED,   0.0);         // Turn  CW  to   0 Degrees
-    gyroHold( TURN_SPEED,   0.0, 1.0);    // Hold  0 Deg heading for a 1 second
-    gyroDrive(DRIVE_SPEED,-48.0, 0.0);    // Drive REV 48 inches
-
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
-}
-*/
 
     /**
      *  Method to drive on a fixed compass bearing (angle), based on encoder counts.
@@ -403,14 +372,6 @@ public class TurnWheels {
 
             leftmotor.setPower(leftSpeed);
             rightmotor.setPower(rightSpeed);
-
-            // Display drive status for the driver.
-            // telemetry.addData("Err/St",  "%5.1f/%5.1f",  error, steer);
-            // telemetry.addData("Target",  "%7d:%7d",      newLeftTarget,  newRightTarget);
-            // telemetry.addData("Actual",  "%7d:%7d",      leftmotor.getCurrentPosition(),
-                 //   rightmotor.getCurrentPosition());
-            // telemetry.addData("Speed",   "%5.2f:%5.2f",  leftSpeed, rightSpeed);
-            // telemetry.update();
         }
 
         // Stop all motion;

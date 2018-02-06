@@ -81,9 +81,11 @@ public class RedStraight extends LinearOpMode {
 
         jewelMover.run();
 
-        turnWheels.encoderDrive(.3,18.25,18.25, 10);
+        turnWheels.gyroDrive(.3,18.25,0);
+                //encoderDrive(.3,18.25,18.25, 10);
         turnWheels.left90();
-        turnWheels.encoderDrive(.3,12,12, 10);
+        turnWheels.gyroDrive(.3,12,turnWheels.getRobotHeading());
+                //encoderDrive(.3,12,12, 10);
         turnWheels.right90();
 
         placeGlyph.run(vuMark);

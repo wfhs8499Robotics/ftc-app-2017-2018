@@ -56,39 +56,45 @@ public class PlaceGlyph {
             // turn
             turnWheels.left33();
             //straight
-            turnWheels.encoderDrive(.3, 14, 14, 10);
+            turnWheels.gyroDrive(.3, 14, turnWheels.getRobotHeading());
+                    //encoderDrive(.3, 14, 14, 10);
             //turn
             turnWheels.right33();
             //straight
-            turnWheels.encoderDrive(.3, 6, 6, 10);
+            turnWheels.gyroDrive(.3, 6, turnWheels.getRobotHeading());
+                    //encoderDrive(.3, 6, 6, 10);
         }
         if (vuMark == RelicRecoveryVuMark.RIGHT) {
             // turn
             turnWheels.right33();
             //straight
-            turnWheels.encoderDrive(.3, 14, 14, 10);
+            turnWheels.gyroDrive(.3, 14, turnWheels.getRobotHeading());
+                    //encoderDrive(.3, 14, 14, 10);
             //turn
             turnWheels.left33();
             //straight
-            turnWheels.encoderDrive(.3, 6, 6, 10);
+            turnWheels.gyroDrive(.3, 6, turnWheels.getRobotHeading());
+                    //encoderDrive(.3, 6, 6, 10);
         }
         if (vuMark == RelicRecoveryVuMark.CENTER || vuMark == RelicRecoveryVuMark.UNKNOWN) {
-            turnWheels.encoderDrive(.3, 17, 17, 10);
-
-            //position the servo to the maximum position
-            liftmotor.setPower(0.00);
-            leftGrabber.setPosition(LEFT_MAX_POS);
-            rightGrabber.setPosition(RIGHT_MAX_POS);
-
-            //backup
-            turnWheels.encoderDrive(.3, -18, -18, 10);
-            if (vuMark == RelicRecoveryVuMark.LEFT) {
-                turnWheels.left180();
-            } else {
-                turnWheels.right180();
-            }
-            // backup again
-            turnWheels.encoderDrive(.25, -12, -12, 10);
+            turnWheels.gyroDrive(.3, 17, turnWheels.getRobotHeading());
+                    //encoderDrive(.3, 17, 17, 10);
         }
+        //position the servo to the maximum position
+        liftmotor.setPower(0.00);
+        leftGrabber.setPosition(LEFT_MAX_POS);
+        rightGrabber.setPosition(RIGHT_MAX_POS);
+
+        //backup
+        turnWheels.gyroDrive(.3, -18, turnWheels.getRobotHeading());
+        // encoderDrive(.3, -18, -18, 10);
+        if (vuMark == RelicRecoveryVuMark.LEFT) {
+            turnWheels.left180();
+        } else {
+            turnWheels.right180();
+        }
+        // backup again
+        turnWheels.gyroDrive(.25, -12, turnWheels.getRobotHeading());
+                //encoderDrive(.25, -12, -12, 10);
     }
 }

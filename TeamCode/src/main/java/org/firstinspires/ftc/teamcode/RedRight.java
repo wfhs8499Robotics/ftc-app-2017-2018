@@ -80,7 +80,8 @@ public class RedRight extends LinearOpMode {
 
         jewelMover.run();
 
-        turnWheels.encoderDrive(.3,30.25,30.25, 10);
+        turnWheels.gyroDrive(.3,30.25,0);
+               // encoderDrive(.3,30.25,30.25, 10);
         turnWheels.right90();
 
         placeGlyph.run(vuMark);

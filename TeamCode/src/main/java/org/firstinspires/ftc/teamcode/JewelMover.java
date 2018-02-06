@@ -100,24 +100,28 @@ public class JewelMover {
         if (side == "RED"){
             if(hsvValues[0] < 100 || hsvValues[0] > 300){ // red side, red ball
         //  move in the opposite direction of the color sensor
-                turnWheels.encoderDrive(.3,-4,-4,10);
                 bMovedForward = false;
             } else { // red side, blue ball
         //  move in the same direction of the color sensor
-                turnWheels.encoderDrive(.3,4,4,10);
                 bMovedForward = true;
             }
         }
         if (side == "BLUE"){
             if(hsvValues[0] < 100 || hsvValues[0] > 300){ // blue side, red ball
         //  move in the same direction of the color sensor
-                turnWheels.encoderDrive(.3,4,4,10);
                 bMovedForward = true;
             } else { // blue side, blue ball
         //  move in the opposite direction of the color sensor
-                turnWheels.encoderDrive(.3,-4,-4,10);
                 bMovedForward = false;
             }
+        }
+        if (bMovedForward){
+            turnWheels.gyroDrive(.2,3,0);
+            //.encoderDrive(.3,-4,-4,10);
+        }
+        if (!bMovedForward){
+            turnWheels.gyroDrive(.2,-3,0);
+            //.encoderDrive(.3,4,4,10);
         }
         // Set the LED off in the end
         colorSensor.enableLed(bLedOff);
@@ -132,13 +136,14 @@ public class JewelMover {
                 e.printStackTrace();
             }
         }
-
         //move back into position
         if (bMovedForward){
-            turnWheels.encoderDrive(.3,-4,-4,10);
+            turnWheels.gyroDrive(.2,-3,0);
+                    //.encoderDrive(.3,-4,-4,10);
         }
         if (!bMovedForward){
-            turnWheels.encoderDrive(.3,4,4,10);
+            turnWheels.gyroDrive(.2,3,0);
+                    //.encoderDrive(.3,4,4,10);
         }
     }
 }
