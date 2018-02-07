@@ -40,7 +40,7 @@ public class DriverMode extends OpMode {
 
     // settings for the lift release servo
     static final double LIFT_MAX_POS     =  0.50;     // Maximum rotational position
-    static final double LIFT_MIN_POS     =  0.00;     // Minimum rotational position
+    static final double LIFT_MIN_POS     =  0.24;     // Minimum rotational position
 
     static final double RELIC_GRABBER_OPEN = 0.33;
     static final double RELIC_GRABBER_CLOSED = 0.00;

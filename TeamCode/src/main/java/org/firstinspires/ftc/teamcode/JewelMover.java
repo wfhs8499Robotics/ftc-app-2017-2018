@@ -24,8 +24,8 @@ public class JewelMover {
     float hsvValues[] = {0F, 0F, 0F};
 
     // settings for the lift release servo
-    static final double MOVER_UP = 0.00;     // Maximum rotational position
-    static final double MOVER_OUT = 0.70;     // Minimum rotational position
+    static final double MOVER_UP = 0.24;     // Maximum rotational position
+    static final double MOVER_OUT = 0.92;     // Minimum rotational position
     static final double MOVER_STEP = 0.02;
 
     // values is a reference to the hsvValues array.
