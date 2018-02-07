@@ -1,13 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.app.Activity;
 import android.graphics.Color;
-import android.view.View;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * this run method handles all steps to move the correct jewel off of the platform.
@@ -18,35 +15,34 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class JewelMover {
 
-    ColorSensor colorSensor;
-    Servo jewelpusher;
+    private ColorSensor colorSensor;
+    private Servo jewelpusher;
     // hsvValues is an array that will hold the hue, saturation, and value information.
-    float hsvValues[] = {0F, 0F, 0F};
+    private float hsvValues[] = {0F, 0F, 0F};
 
     // settings for the lift release servo
-    static final double MOVER_UP = 0.24;     // Maximum rotational position
-    static final double MOVER_OUT = 0.92;     // Minimum rotational position
-    static final double MOVER_STEP = 0.02;
+    private static final double MOVER_UP = 0.24;     // Maximum rotational position
+    private static final double MOVER_OUT = 0.92;     // Minimum rotational position
+    private static final double MOVER_STEP = 0.02;
 
     // values is a reference to the hsvValues array.
-    final float values[] = hsvValues;
+//    final float values[] = hsvValues;
 
-    int numbersteps = 0;
+    private int numbersteps = 0;
 
     // bLedOn true state of the LED.
-    boolean bLedOn = true;
+    private boolean bLedOn = true;
     // bLedOn true state of the LED.
-    boolean bLedOff = false;
+    private boolean bLedOff = false;
     /* Local OpMode members. */
     private TurnWheels turnWheels = new TurnWheels();
 
-    boolean bMovedForward;
+    private boolean bMovedForward;
 
     // inits
 
-    String side = null;
-    HardwareMap hwMap = null;
-    private ElapsedTime period = new ElapsedTime();
+    private String side = null;
+    private HardwareMap hwMap = null;
 
     /* Constructor */
     public JewelMover() {
@@ -97,7 +93,7 @@ public class JewelMover {
         // convert the RGB values to HSV values.
         Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
 
-        if (side == "RED"){
+        if (side.equals("RED")) {
             if(hsvValues[0] < 100 || hsvValues[0] > 300){ // red side, red ball
         //  move in the opposite direction of the color sensor
                 bMovedForward = false;
@@ -106,7 +102,7 @@ public class JewelMover {
                 bMovedForward = true;
             }
         }
-        if (side == "BLUE"){
+        if (side.equals("BLUE")){
             if(hsvValues[0] < 100 || hsvValues[0] > 300){ // blue side, red ball
         //  move in the same direction of the color sensor
                 bMovedForward = true;

@@ -30,12 +30,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
@@ -57,7 +53,9 @@ public class RedStraight extends LinearOpMode {
     private JewelMover jewelMover = new JewelMover();
     private PlaceGlyph placeGlyph = new PlaceGlyph();
 
-    RelicRecoveryVuMark vuMark;
+    private static final double columnWidth = 6;
+
+    private RelicRecoveryVuMark vuMark;
     @Override
     public void runOpMode() {
 
@@ -84,7 +82,16 @@ public class RedStraight extends LinearOpMode {
         turnWheels.gyroDrive(.3,18.25,0);
                 //encoderDrive(.3,18.25,18.25, 10);
         turnWheels.left90();
-        turnWheels.gyroDrive(.3,12,turnWheels.getRobotHeading());
+        if (vuMark == RelicRecoveryVuMark.RIGHT) {
+            turnWheels.gyroDrive(.3,12 - columnWidth,turnWheels.getRobotHeading());
+        }
+        if (vuMark == RelicRecoveryVuMark.CENTER || vuMark == RelicRecoveryVuMark.UNKNOWN) {
+            turnWheels.gyroDrive(.3,12,turnWheels.getRobotHeading());
+        }
+        // encoderDrive(.3,30.25,30.25, 10);
+        if (vuMark == RelicRecoveryVuMark.LEFT) {
+            turnWheels.gyroDrive(.3,12 + columnWidth,turnWheels.getRobotHeading());
+        }
                 //encoderDrive(.3,12,12, 10);
         turnWheels.right90();
 

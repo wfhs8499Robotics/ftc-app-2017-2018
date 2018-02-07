@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
@@ -18,14 +17,14 @@ import static java.lang.Thread.sleep;
 
 public class PlaceGlyph {
 
-    Servo leftGrabber = null; // Hardware Device Object
-    Servo rightGrabber = null; // Hardware Device Object
-    static final double RIGHT_MAX_POS = 0.60;     // Maximum rotational position
-    static final double RIGHT_MIN_POS = 0.39;     // Minimum rotational position    static final double MAX_POS = 0.70;     // Maximum rotational position
-    static final double LEFT_MAX_POS = 0.60;     // Maximum rotational position
-    static final double LEFT_MIN_POS = 0.42;     // Minimum rotational position
-    static final double LIFT_MAX_POWER = 0.25;
-    static final double LIFT_MIN_POWER = 0.15;
+    private Servo leftGrabber = null; // Hardware Device Object
+    private Servo rightGrabber = null; // Hardware Device Object
+    private static final double RIGHT_MAX_POS = 0.60;     // Maximum rotational position
+    private static final double RIGHT_MIN_POS = 0.39;     // Minimum rotational position    static final double MAX_POS = 0.70;     // Maximum rotational position
+    private static final double LEFT_MAX_POS = 0.60;     // Maximum rotational position
+    private static final double LEFT_MIN_POS = 0.42;     // Minimum rotational position
+    private static final double LIFT_MAX_POWER = 0.30;
+    private static final double LIFT_MIN_POWER = 0.15;
     private TurnWheels turnWheels = new TurnWheels();
     private DcMotor liftmotor = null;   // Hardware Device Object
 
@@ -52,7 +51,7 @@ public class PlaceGlyph {
     }
 
     public void run(RelicRecoveryVuMark vuMark) {
-        if (vuMark == RelicRecoveryVuMark.LEFT) {
+/*        if (vuMark == RelicRecoveryVuMark.LEFT) {
             // turn
             turnWheels.left33();
             //straight
@@ -76,10 +75,10 @@ public class PlaceGlyph {
             turnWheels.gyroDrive(.3, 6, turnWheels.getRobotHeading());
                     //encoderDrive(.3, 6, 6, 10);
         }
-        if (vuMark == RelicRecoveryVuMark.CENTER || vuMark == RelicRecoveryVuMark.UNKNOWN) {
-            turnWheels.gyroDrive(.3, 17, turnWheels.getRobotHeading());
+        if (vuMark == RelicRecoveryVuMark.CENTER || vuMark == RelicRecoveryVuMark.UNKNOWN) {*/
+        turnWheels.gyroDrive(.3, 17, turnWheels.getRobotHeading());
                     //encoderDrive(.3, 17, 17, 10);
-        }
+ //       }
         //position the servo to the maximum position
         liftmotor.setPower(0.00);
         leftGrabber.setPosition(LEFT_MAX_POS);

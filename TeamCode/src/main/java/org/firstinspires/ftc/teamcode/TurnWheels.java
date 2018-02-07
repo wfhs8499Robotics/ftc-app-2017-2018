@@ -1,9 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+//import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -20,45 +19,33 @@ import static java.lang.Thread.sleep;
 
 public class TurnWheels {
 
-    static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
-    static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
-    static final double     WHEEL_DIAMETER_MM       = 101.6 ;   // For figuring circumference
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1416);
-    static final double     COUNTS_PER_MM           = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_MM * 3.1416);
-    static final double     DRIVE_SPEED             = 0.25;
-    static final double     HALF_SPEED              = DRIVE_SPEED / 2;
-    static final double     TURN_SPEED              = 0.125;
-    static final double     HOLD_SPEED              = TURN_SPEED / 2;
+    private static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
+    private static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
+    private static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+    private static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1416);
+    private static final double     TURN_SPEED              = 0.125;
+    private static final double     HOLD_SPEED              = TURN_SPEED / 2;
     // Robot configuration and turning distances
-    static final double     wheelWidth              = 13.8125;
-    static final double     completeCircle          = wheelWidth * 3.14159;
-    static final double     turn180degrees          = completeCircle / 2;
-    static final double     turn90degrees           = completeCircle / 4;
-    static final double     turn35degrees           = completeCircle / 10.2857;
+//    private static final double     wheelWidth              = 13.8125;
 
-    static final double INCREMENT   = 0.01;     // amount to ramp motor each CYCLE_MS cycle
-    static final int    CYCLE_MS    =   50;     // period of each cycle
-    static final double MAX_FWD     =  1.0;     // Maximum FWD power applied to motor
-    static final double MAX_REV     = -1.0;     // Maximum REV power applied to motor
+    private static final double INCREMENT   = 0.01;     // amount to ramp motor each CYCLE_MS cycle
+    private static final int    CYCLE_MS    =   50;     // period of each cycle
+    private static final double MAX_FWD     =  1.0;     // Maximum FWD power applied to motor
+    private static final double MAX_REV     = -1.0;     // Maximum REV power applied to motor
 
-    static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
-    static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable
+    private static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
+    private static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
+    private static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable
 
     private DcMotor leftmotor = null; // Hardware Device Object
     private DcMotor rightmotor = null; // Hardware Device Object
     private IntegratingGyroscope gyro;
     private ModernRoboticsI2cGyro modernRoboticsI2cGyro;
-    private ModernRoboticsI2cRangeSensor rangeSensor;
+//    private ModernRoboticsI2cRangeSensor rangeSensor;
     // Define class members
-    double  power   = 0;
-    boolean rampUp  = true;
-    int saveHeading;
-
-    private ElapsedTime runtime = new ElapsedTime();  // used for timing of the encoder run
-
-
+    private double  power   = 0;
+    private boolean rampUp  = true;
+    private int saveHeading;
 
     /* Constructor */
     public TurnWheels(){
@@ -301,7 +288,7 @@ public class TurnWheels {
     }
     public void getRangeDistance(){
 
-        rangeSensor.rawUltrasonic();
+//        rangeSensor.rawUltrasonic();
     }
 
     /**
