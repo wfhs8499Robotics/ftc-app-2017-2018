@@ -5,9 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 /*
  * The code is structured as an Iterative OpMode
@@ -17,68 +15,67 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class DriverMode extends OpMode {
 
-    DcMotor leftmotor = null;   // Hardware Device Object
-    DcMotor rightmotor = null;  // Hardware Device Object
-    DcMotor liftmotor = null;   // Hardware Device Object
-    DcMotor relicExtensionMotor = null;
-    Servo leftgrabber = null;         // Hardware Device Object
-    Servo rightgrabber = null;         // Hardware Device Object
-    Servo jewelpusher = null;         // Hardware Device Object
-    Servo relicGrabberServo = null;
-    CRServo relicRotatorCRServo = null;
-    ColorSensor colorSensor = null;
+    private DcMotor leftmotor = null;   // Hardware Device Object
+    private DcMotor rightmotor = null;  // Hardware Device Object
+    private DcMotor liftmotor = null;   // Hardware Device Object
+    private DcMotor relicExtensionMotor = null;
+    private Servo leftgrabber = null;         // Hardware Device Object
+    private Servo rightgrabber = null;         // Hardware Device Object
+    private Servo jewelpusher = null;         // Hardware Device Object
+    private Servo relicGrabberServo = null;
+    private CRServo relicRotatorCRServo = null;
+    private ColorSensor colorSensor = null;
 
 
-    float LiftPercent = 0.60f;  // Lift Motor:: only use 50 percent power as the default speed at full throttle
-    float LIFT_LOWER_PERCENT = 0.5f;
-    float StickPercent = 0.5f;  // only use 50 percent power as the default speed at full throttle
+    private float LiftPercent = 0.60f;  // Lift Motor:: only use 50 percent power as the default speed at full throttle
+    private float LIFT_LOWER_PERCENT = 0.5f;
+    private float StickPercent = 0.5f;  // only use 50 percent power as the default speed at full throttle
     // settings for the Servo
-    static final double RIGHT_MAX_POS = 0.60;     // Maximum rotational position
-    static final double RIGHT_MIN_POS = 0.39;     // Minimum rotational position    static final double MAX_POS = 0.70;     // Maximum rotational position
-    static final double LEFT_MAX_POS = 0.60;     // Maximum rotational position
-    static final double LEFT_MIN_POS = 0.42;     // Minimum rotational position
+    private static final double RIGHT_MAX_POS = 0.60;     // Maximum rotational position
+    private static final double RIGHT_MIN_POS = 0.39;     // Minimum rotational position    static final double MAX_POS = 0.70;     // Maximum rotational position
+    private static final double LEFT_MAX_POS = 0.60;     // Maximum rotational position
+    private static final double LEFT_MIN_POS = 0.42;     // Minimum rotational position
 
     // settings for the lift release servo
-    static final double LIFT_MAX_POS     =  0.50;     // Maximum rotational position
-    static final double LIFT_MIN_POS     =  0.24;     // Minimum rotational position
+    private static final double LIFT_MIN_POS     =  0.24;     // Minimum rotational position
 
-    static final double RELIC_GRABBER_OPEN = 0.33;
-    static final double RELIC_GRABBER_CLOSED = 0.00;
-    static final double RELIC_ROTATOR_BACK = 0.02;
-    static final double RELIC_ROTATOR_DOWN = -0.02;
-    static final double RELIC_ROTATOR_OUT = -0.12;
-    static final double RELIC_ROTATOR_UP = -0.17;
+    private static final double RELIC_GRABBER_OPEN = 0.33;
+    private static final double RELIC_GRABBER_CLOSED = 0.00;
+    private static final double RELIC_ROTATOR_BACK = 0.02;
+    private static final double RELIC_ROTATOR_DOWN = -0.02;
+    private static final double RELIC_ROTATOR_OUT = -0.12;
+    private static final double RELIC_ROTATOR_UP = -0.17;
 
     // all the variables we need
-    double leftpower;
-    double rightpower;
-    double lift;
-    double relicExtension;
-    float hypermode;
-    float seanmode;
-    float hyperliftmode;
-    float seanliftmode;
-    float driveadjustment;
-    float liftadjustment;
-    boolean opengrabber = false;
+    private double leftpower;
+    private double rightpower;
+    private double lift;
+    private double relicExtension;
+    private float hypermode;
+    private float seanmode;
+    private float hyperliftmode;
+    private float seanliftmode;
+    private float driveadjustment;
+    private float liftadjustment;
+    private boolean opengrabber = false;
 //    float squeezegrabberleft = 0;
-    boolean centerservo = false;
-    boolean extendbothservo = false;
-    boolean jewelpusherpushed = false;
-    boolean bSeanMode = false;
-    boolean bFastMode = false;
-    boolean bSeanButtonPushed = false;
-    boolean bFastButtonPushed = false;
-    boolean bSeanLiftMode = false;
-    boolean bFastLiftMode = false;
-    boolean bSeanLiftButtonPushed = false;
-    boolean bFastLiftButtonPushed = false;
-    boolean bLedOff = false;
-    boolean bRelicGrabber = false;
-    boolean bRelicRotatorUp = false;
-    boolean bRelicRotatorReverse = false;
-    boolean bRelicRotatorZero = false;
-    boolean bRelicRotatorOut = false;
+    private boolean centerservo = false;
+    private boolean extendbothservo = false;
+    private boolean jewelpusherpushed = false;
+    private boolean bSeanMode = false;
+    private boolean bFastMode = false;
+    private boolean bSeanButtonPushed = false;
+    private boolean bFastButtonPushed = false;
+    private boolean bSeanLiftMode = false;
+    private boolean bFastLiftMode = false;
+    private boolean bSeanLiftButtonPushed = false;
+    private boolean bFastLiftButtonPushed = false;
+    private boolean bLedOff = false;
+    private boolean bRelicGrabber = false;
+    private boolean bRelicRotatorUp = false;
+    private boolean bRelicRotatorReverse = false;
+    private boolean bRelicRotatorZero = false;
+    private boolean bRelicRotatorOut = false;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -204,7 +201,7 @@ public class DriverMode extends OpMode {
             }
         }
         // move the servo forward on the right
-        if (opengrabber == true){
+        if (opengrabber){
             rightgrabber.setPosition(RIGHT_MAX_POS);
             leftgrabber.setPosition(LEFT_MAX_POS);
 //            leftgrabber.setPosition(MIN_POS);
@@ -285,7 +282,7 @@ public class DriverMode extends OpMode {
         telemetry.addData("Lift",  "%.2f", lift * liftadjustment);
         telemetry.addData("relic extension", "%2f", relicExtension);
 
-        if (opengrabber == true){
+        if (opengrabber){
             telemetry.addData("servo", "servo open pushed %.2f", RIGHT_MAX_POS);
         }
         if (centerservo){
