@@ -338,6 +338,8 @@ public class TurnWheels {
         // keep looping while we are still active, and BOTH motors are running.
         while ((leftmotor.isBusy() && rightmotor.isBusy())) {
 
+           //* leftmotor.getCurrentPosition();
+
             // adjust relative speed based on heading error.
             error = getError(angle);
             steer = getSteer(error, P_DRIVE_COEFF);
