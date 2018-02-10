@@ -331,7 +331,7 @@ public class TurnWheels {
         rightmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // start motion.
-        speed = Range.clip(Math.abs(speed), 0.0, 1.0);
+        //* speed = Range.clip(Math.abs(speed), 0.0, 1.0);
         leftmotor.setPower(speed);
         rightmotor.setPower(speed);
 
