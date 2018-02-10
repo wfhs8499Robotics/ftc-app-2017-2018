@@ -70,6 +70,7 @@ public class TestRampMotor extends LinearOpMode {
         // Change the text in quotes to match any motor name on your robot.
         leftmotor = hardwareMap.get(DcMotor.class, "left motor");
         rightmotor = hardwareMap.get(DcMotor.class, "right motor");
+        //leftmotor.setDirection(DcMotor.Direction.REVERSE);
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to run Motors." );
