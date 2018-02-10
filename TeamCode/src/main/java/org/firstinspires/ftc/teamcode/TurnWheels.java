@@ -19,6 +19,16 @@ import static java.lang.Thread.sleep;
 
 public class TurnWheels {
 
+
+    private int     newLeftTarget;
+    private int     newRightTarget;
+    private int     moveCounts;
+    private double  max;
+    private double  error;
+    private double  steer;
+    private double  leftSpeed;
+    private double  rightSpeed;
+
     private static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
     private static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
     private static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
@@ -46,6 +56,9 @@ public class TurnWheels {
     private double  power   = 0;
     private boolean rampUp  = true;
     private int saveHeading;
+
+    private double maxSpeed = 0;
+    private double zeroSpeed = INCREMENT;
 
     /* Constructor */
     public TurnWheels(){
@@ -78,130 +91,7 @@ public class TurnWheels {
         modernRoboticsI2cGyro.resetZAxisIntegrator();
         //*rangeSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
     }
-    /*
-     *  Method to perform a relative move, based on encoder counts.
-     *  Encoders are not reset as the move is based on the current position.
-     *  Move will stop if any of three conditions occur:
-     *  1) Move gets to the desired position
-     *  2) Move runs out of time
-     *  3) Driver stops the opmode running.
-     *
-     *  Note: Reverse movement is obtained by setting a negative distance (not speed)
-     *      encoderDrive(DRIVE_SPEED,  48,  48, 5.0);  // S1: Forward 48 Inches with 5 Sec timeout
-     *      encoderDrive(TURN_SPEED,   12, -12, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
-     *      encoderDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
-     *
-     */
-/*    public void encoderDrive(double speed,
-                             double leftInches, double rightInches,
-                             double timeoutS){
-        int newLeftTarget;
-        int newRightTarget;
 
-        // Ensure that the opmode is still active
-
-        // Determine new target position, and pass to motor controller
-        newLeftTarget = leftmotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-        newRightTarget = rightmotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-        leftmotor.setTargetPosition(newLeftTarget);
-        rightmotor.setTargetPosition(newRightTarget);
-
-        leftmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        // reset the timeout time and start motion.
-        runtime.reset();
-        leftmotor.setPower(Math.abs(speed));
-        rightmotor.setPower(Math.abs(speed));
-
-
-        // keep looping while we are still active, and there is time left, and both motors are running.
-        while ((runtime.seconds() < timeoutS) &&
-                (leftmotor.isBusy() && rightmotor.isBusy())) {
-
-            // Allow time for other processes to run.
-            try {
-                sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // Stop all motion;
-        leftmotor.setPower(0);
-        rightmotor.setPower(0);
-
-        // Turn off RUN_TO_POSITION
-        leftmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        try {
-            sleep(250);   // optional pause after each move
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-    }
-*/
- /*
-*  Method to perform a relative move, based on encoder counts.
-*  Encoders are not reset as the move is based on the current position.
-*  Move will stop if any of three conditions occur:
-*  1) Move gets to the desired position
-*  2) Move runs out of time
-*  3) Driver stops the opmode running.
-*
-*  Note: Reverse movement is obtained by setting a negative distance (not speed)
-*      encoderDrive(DRIVE_SPEED,  480,  480, 5.0);  // S1: Forward 48 MMs with 5 Sec timeout
-*      encoderDrive(TURN_SPEED,   12, -12, 4.0);  // S2: Turn Right 12 MMs with 4 Sec timeout
-*      encoderDrive(DRIVE_SPEED, -240, -240, 4.0);  // S3: Reverse 24 MMs with 4 Sec timeout
-*
-
-    public void encoderDriveMM(double speed,
-                               double leftMMs, double rightMMs,
-                               double timeoutS)  {
-        int newLeftTarget;
-        int newRightTarget;
-
-        // Ensure that the opmode is still active
-
-            // Determine new target position, and pass to motor controller
-            newLeftTarget = leftmotor.getCurrentPosition() + (int)(leftMMs * COUNTS_PER_MM);
-            newRightTarget = rightmotor.getCurrentPosition() + (int)(rightMMs * COUNTS_PER_MM);
-            leftmotor.setTargetPosition(newLeftTarget);
-            rightmotor.setTargetPosition(newRightTarget);
-
-            // Turn On RUN_TO_POSITION
-            leftmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            // reset the timeout time and start motion.
-            runtime.reset();
-            leftmotor.setPower(Math.abs(speed));
-            rightmotor.setPower(Math.abs(speed));
-
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            while ((runtime.seconds() < timeoutS) &&
-                    (leftmotor.isBusy() && rightmotor.isBusy())) {
-
-                // Allow time for other processes to run.
-                try {
-                    sleep(50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            // Stop all motion;
-            leftmotor.setPower(0);
-            rightmotor.setPower(0);
-            // Turn off RUN_TO_POSITION
-            leftmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            rightmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-            //  sleep(250);   // optional pause after each move
-        }
-*/
     /*
      *  Helper methods to perform a relative turn, based on encoder counts.
      *  Encoders are not reset as the move is based on the current position.
@@ -307,14 +197,6 @@ public class TurnWheels {
                             double distance,
                             double angle) {
 
-        int     newLeftTarget;
-        int     newRightTarget;
-        int     moveCounts;
-        double  max;
-        double  error;
-        double  steer;
-        double  leftSpeed;
-        double  rightSpeed;
 
         // Ensure that the opmode is still activ
 
@@ -331,14 +213,34 @@ public class TurnWheels {
         rightmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // start motion.
-        //* speed = Range.clip(Math.abs(speed), 0.0, 1.0);
+        speed = Range.clip(Math.abs(speed), 0.0, 1.0);
+
+        maxSpeed = speed;
+        speed = INCREMENT;
+        rampUp = true;
+
         leftmotor.setPower(speed);
         rightmotor.setPower(speed);
 
         // keep looping while we are still active, and BOTH motors are running.
         while ((leftmotor.isBusy() && rightmotor.isBusy())) {
+            if (rampUp){
+               speed += INCREMENT ;
+             if (speed >= maxSpeed ) {
+                   speed = maxSpeed;
+               }
+             }
+            if (!rampUp){
+                power -= INCREMENT ;
+                if (speed <= zeroSpeed) {
+                    speed = zeroSpeed;
+                }
+            }
 
-           //* leftmotor.getCurrentPosition();
+            if (leftmotor.getCurrentPosition()<= newLeftTarget - 360 ) {
+                rampUp = false;
+            }
+
 
             // adjust relative speed based on heading error.
             error = getError(angle);

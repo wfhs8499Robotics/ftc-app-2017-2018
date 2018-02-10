@@ -85,15 +85,15 @@ public class PlaceGlyph {
         rightGrabber.setPosition(RIGHT_MAX_POS);
 
         //backup
-        turnWheels.gyroDrive(.3, -18, turnWheels.getRobotHeading());
+        turnWheels.gyroDrive(.3, -3, turnWheels.getRobotHeading());
         // encoderDrive(.3, -18, -18, 10);
-        if (vuMark == RelicRecoveryVuMark.LEFT) {
-            turnWheels.left180();
-        } else {
-            turnWheels.right180();
-        }
-        // backup again
-        turnWheels.gyroDrive(.25, -12, turnWheels.getRobotHeading());
-                //encoderDrive(.25, -12, -12, 10);
+//        if (vuMark == RelicRecoveryVuMark.LEFT) {
+//            turnWheels.left180();
+//        } else {
+//            turnWheels.right180();
+//        }
+//        // backup again
+//        turnWheels.gyroDrive(.25, -12, turnWheels.getRobotHeading());
+//                //encoderDrive(.25, -12, -12, 10);
     }
 }
