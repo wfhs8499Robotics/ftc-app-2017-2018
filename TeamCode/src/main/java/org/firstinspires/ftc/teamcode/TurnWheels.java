@@ -40,12 +40,12 @@ public class TurnWheels {
 
     private static final double INCREMENT   = 0.01;     // amount to ramp motor each CYCLE_MS cycle
     private static final int    CYCLE_MS    =   50;     // period of each cycle
-    private static final double MAX_FWD     =  1.0;     // Maximum FWD power applied to motor
-    private static final double MAX_REV     = -1.0;     // Maximum REV power applied to motor
+    private static final double MAX_FWD     =  0.3;     // Maximum FWD power applied to motor
+    private static final double MAX_REV     = -0.3;     // Maximum REV power applied to motor
 
     private static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
     private static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
-    private static final double     P_DRIVE_COEFF           = 0.10;     // Larger is more responsive, but also less stable -  original is 0.15
+    private static final double     P_DRIVE_COEFF           = 0.05;     // Larger is more responsive, but also less stable -  original is 0.15
 
     private DcMotor leftmotor = null; // Hardware Device Object
     private DcMotor rightmotor = null; // Hardware Device Object

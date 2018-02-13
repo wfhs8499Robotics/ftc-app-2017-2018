@@ -53,7 +53,7 @@ public class TestRampMotor extends LinearOpMode {
     static final double INCREMENT   = 0.01;     // amount to ramp motor each CYCLE_MS cycle
     static final int    CYCLE_MS    =   50;     // period of each cycle
     static final double MAX_FWD     =  0.3;     // Maximum FWD power applied to motor
-    static final double MAX_REV     = -1.0;     // Maximum REV power applied to motor
+    static final double MAX_REV     = -0.3;     // Maximum REV power applied to motor
 
     // Define class members
     DcMotor leftmotor;
@@ -70,7 +70,7 @@ public class TestRampMotor extends LinearOpMode {
         // Change the text in quotes to match any motor name on your robot.
         leftmotor = hardwareMap.get(DcMotor.class, "left motor");
         rightmotor = hardwareMap.get(DcMotor.class, "right motor");
-        //leftmotor.setDirection(DcMotor.Direction.REVERSE);
+        leftmotor.setDirection(DcMotor.Direction.REVERSE);
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to run Motors." );
