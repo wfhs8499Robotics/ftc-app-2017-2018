@@ -45,7 +45,7 @@ public class TurnWheels {
 
     private static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
     private static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
-    private static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable
+    private static final double     P_DRIVE_COEFF           = 0.10;     // Larger is more responsive, but also less stable -  original is 0.15
 
     private DcMotor leftmotor = null; // Hardware Device Object
     private DcMotor rightmotor = null; // Hardware Device Object
@@ -230,16 +230,16 @@ public class TurnWheels {
                    speed = maxSpeed;
                }
              }
-            if (!rampUp){
-                power -= INCREMENT ;
-                if (speed <= zeroSpeed) {
-                    speed = zeroSpeed;
-                }
-            }
-
-            if (leftmotor.getCurrentPosition()<= newLeftTarget - 360 ) {
-                rampUp = false;
-            }
+//            if (!rampUp){
+//                power -= INCREMENT ;
+//                if (speed <= zeroSpeed) {
+//                    speed = zeroSpeed;
+//                }
+//            }
+//
+//            if (leftmotor.getCurrentPosition()<= newLeftTarget - 360 ) {
+//                rampUp = false;
+//            }
 
 
             // adjust relative speed based on heading error.
