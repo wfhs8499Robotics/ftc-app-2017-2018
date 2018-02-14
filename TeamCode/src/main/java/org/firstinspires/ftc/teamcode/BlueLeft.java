@@ -61,7 +61,7 @@ public class BlueLeft extends LinearOpMode {
     private JewelMover jewelMover = new JewelMover();
     private PlaceGlyph placeGlyph = new PlaceGlyph();
 
-    private static final double columnWidth = 6;
+    private static final double columnWidth = 7.375;
 
     private RelicRecoveryVuMark vuMark;
     @Override

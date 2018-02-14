@@ -97,46 +97,61 @@ public class TurnWheels {
      *  Encoders are not reset as the move is based on the current position.
      */
     public void right90 () {
-        saveHeading = modernRoboticsI2cGyro.getHeading();
+        saveHeading = 0; //modernRoboticsI2cGyro.getHeading();
         gyroTurn(TURN_SPEED, saveHeading - 90);
         gyroHold(HOLD_SPEED, saveHeading - 90, 0.5);
         //encoderDrive(TURN_SPEED,turn90degrees,-turn90degrees,10);
     }
 
     public void left90 () {
-        saveHeading = modernRoboticsI2cGyro.getHeading();
+        saveHeading = 0; //modernRoboticsI2cGyro.getHeading();
         gyroTurn(TURN_SPEED,saveHeading + 90);
         gyroHold(HOLD_SPEED, saveHeading + 90, 0.5);
         // encoderDrive(TURN_SPEED,-turn90degrees,turn90degrees,10);
     }
 
-    public void right180(){
-        saveHeading = modernRoboticsI2cGyro.getHeading();
-        gyroTurn(TURN_SPEED, saveHeading - 180);
-        gyroHold(HOLD_SPEED, saveHeading - 180, 0.5);
-        //encoderDrive(TURN_SPEED,turn180degrees,-turn180degrees, 10);
+    public void heading0 () {
+        saveHeading = 0; //modernRoboticsI2cGyro.getHeading();
+        gyroTurn(TURN_SPEED, saveHeading);
+        gyroHold(HOLD_SPEED, saveHeading, 0.5);
+        //encoderDrive(TURN_SPEED,turn90degrees,-turn90degrees,10);
     }
 
-    public void left180(){
-        saveHeading = modernRoboticsI2cGyro.getHeading();
-        gyroTurn(TURN_SPEED, saveHeading + 180);
+    public void heading180 () {
+        saveHeading = 0; //modernRoboticsI2cGyro.getHeading();
+        gyroTurn(TURN_SPEED,saveHeading + 180);
         gyroHold(HOLD_SPEED, saveHeading + 180, 0.5);
-        //encoderDrive(TURN_SPEED, -turn180degrees,turn180degrees, 10);
+        // encoderDrive(TURN_SPEED,-turn90degrees,turn90degrees,10);
     }
 
-    public void right33(){
-        saveHeading = modernRoboticsI2cGyro.getHeading();
-        gyroTurn(TURN_SPEED, saveHeading - 35);
-        gyroHold(HOLD_SPEED, saveHeading - 35, 0.5);
-        // encoderDrive(TURN_SPEED, turn35degrees, -turn35degre35es, 10);
-    }
 
-    public void left33(){
-        saveHeading = modernRoboticsI2cGyro.getHeading();
-        gyroTurn(TURN_SPEED, saveHeading + 35);
-        gyroHold(HOLD_SPEED, saveHeading + 35, 0.5);
-        //encoderDrive(TURN_SPEED, -turn35degrees, turn35degrees, 10);
-    }
+//    public void right180(){
+//        saveHeading = modernRoboticsI2cGyro.getHeading();
+//        gyroTurn(TURN_SPEED, saveHeading - 180);
+//        gyroHold(HOLD_SPEED, saveHeading - 180, 0.5);
+//        //encoderDrive(TURN_SPEED,turn180degrees,-turn180degrees, 10);
+//    }
+//
+//    public void left180(){
+//        saveHeading = modernRoboticsI2cGyro.getHeading();
+//        gyroTurn(TURN_SPEED, saveHeading + 180);
+//        gyroHold(HOLD_SPEED, saveHeading + 180, 0.5);
+//        //encoderDrive(TURN_SPEED, -turn180degrees,turn180degrees, 10);
+//    }
+//
+//    public void right33(){
+//        saveHeading = modernRoboticsI2cGyro.getHeading();
+//        gyroTurn(TURN_SPEED, saveHeading - 35);
+//        gyroHold(HOLD_SPEED, saveHeading - 35, 0.5);
+//        // encoderDrive(TURN_SPEED, turn35degrees, -turn35degre35es, 10);
+//    }
+//
+//    public void left33(){
+//        saveHeading = modernRoboticsI2cGyro.getHeading();
+//        gyroTurn(TURN_SPEED, saveHeading + 35);
+//        gyroHold(HOLD_SPEED, saveHeading + 35, 0.5);
+//        //encoderDrive(TURN_SPEED, -turn35degrees, turn35degrees, 10);
+//    }
 
     public void rampMotor(){
         // Ramp the motors, according to the rampUp variable.

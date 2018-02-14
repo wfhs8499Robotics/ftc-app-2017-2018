@@ -37,7 +37,7 @@ public class DriverMode extends OpMode {
     private static final double LEFT_MIN_POS = 0.42;     // Minimum rotational position
 
     // settings for the lift release servo
-    private static final double LIFT_MIN_POS     =  0.24;     // Minimum rotational position
+    private static final double LIFT_MIN_POS     =  0.28;     // Minimum rotational position
 
     private static final double RELIC_GRABBER_OPEN = 0.33;
     private static final double RELIC_GRABBER_CLOSED = 0.00;

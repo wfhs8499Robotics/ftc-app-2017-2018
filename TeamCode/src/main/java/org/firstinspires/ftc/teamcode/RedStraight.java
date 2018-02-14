@@ -53,7 +53,7 @@ public class RedStraight extends LinearOpMode {
     private JewelMover jewelMover = new JewelMover();
     private PlaceGlyph placeGlyph = new PlaceGlyph();
 
-    private static final double columnWidth = 6;
+    private static final double columnWidth = 7.375;
 
     private RelicRecoveryVuMark vuMark;
     @Override
@@ -93,7 +93,7 @@ public class RedStraight extends LinearOpMode {
             turnWheels.gyroDrive(.3,12 + columnWidth,turnWheels.getRobotHeading());
         }
                 //encoderDrive(.3,12,12, 10);
-        turnWheels.right90();
+        turnWheels.heading0();
 
         placeGlyph.run(vuMark);
 

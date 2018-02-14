@@ -61,7 +61,7 @@ public class BlueStraight extends LinearOpMode {
     private JewelMover jewelMover = new JewelMover();
     private PlaceGlyph placeGlyph = new PlaceGlyph();
 
-    private static final double columnWidth = 6;
+    private static final double columnWidth = 7.375;
 
     private RelicRecoveryVuMark vuMark;
     @Override
@@ -102,12 +102,12 @@ public class BlueStraight extends LinearOpMode {
             turnWheels.gyroDrive(.3,12 - columnWidth,turnWheels.getRobotHeading());
         }
                 //encoderDrive(.3,12,12, 10);
-        turnWheels.left90();
+        turnWheels.heading180();
 
         placeGlyph.run(vuMark);
 
         // Show the elapsed game time and wheel power.
-        telemetry.addData("Status", "Run Time: " + runtime.toString());
+        telemetry.addData("Status", "Run Time: " + runtime.toString()); n
         telemetry.update();
     }
 }

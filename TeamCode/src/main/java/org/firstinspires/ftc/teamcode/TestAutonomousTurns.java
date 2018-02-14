@@ -79,18 +79,18 @@ public class TestAutonomousTurns extends LinearOpMode {
             if(gamepad1.left_bumper){
                 turnWheels.left90();
             }
-            if(gamepad1.right_trigger > 0){
-                turnWheels.right33();
-            }
-            if(gamepad1.left_trigger > 0){
-                turnWheels.left33();
-            }
-            if(gamepad1.x){
-                turnWheels.right180();
-            }
-            if(gamepad1.a){
-                turnWheels.left180();
-            }
+//            if(gamepad1.right_trigger > 0){
+//                turnWheels.right33();
+//            }
+//            if(gamepad1.left_trigger > 0){
+//                turnWheels.left33();
+//            }
+//            if(gamepad1.x){
+//                turnWheels.right180();
+//            }
+//            if(gamepad1.a){
+//                turnWheels.left180();
+//            }
             if(gamepad1.y){
                 turnWheels.gyroDrive(.3,12, turnWheels.getRobotHeading());
                         //.encoderDrive(.3,12,12,10);
