@@ -61,7 +61,8 @@ public class BlueLeft extends LinearOpMode {
     private JewelMover jewelMover = new JewelMover();
     private PlaceGlyph placeGlyph = new PlaceGlyph();
 
-    private static final double columnWidth = 7.375;
+    private static final double columnWidth = 7.63;
+    private static final double wheelOffest = 4.25;
 
     private RelicRecoveryVuMark vuMark;
     @Override
@@ -88,14 +89,14 @@ public class BlueLeft extends LinearOpMode {
         jewelMover.run();
 
         if (vuMark == RelicRecoveryVuMark.RIGHT) {
-            turnWheels.gyroDrive(.3,-41.75 - columnWidth,0);
+            turnWheels.gyroDrive(.3,-36 - wheelOffest - columnWidth,0);
         }
         if (vuMark == RelicRecoveryVuMark.CENTER || vuMark == RelicRecoveryVuMark.UNKNOWN) {
-            turnWheels.gyroDrive(.3,-41.75,0);
+            turnWheels.gyroDrive(.3,-36 - wheelOffest,0);
         }
         // encoderDrive(.3,30.25,30.25, 10);
         if (vuMark == RelicRecoveryVuMark.LEFT) {
-            turnWheels.gyroDrive(.3,-41.75 + columnWidth,0);
+            turnWheels.gyroDrive(.3,-36 - wheelOffest + columnWidth,0);
         }
                 //encoderDrive(.3,-41.75,-41.75, 10);
         turnWheels.right90();
