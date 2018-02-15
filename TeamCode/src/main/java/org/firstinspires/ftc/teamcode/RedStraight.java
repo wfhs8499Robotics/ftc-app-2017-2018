@@ -55,6 +55,7 @@ public class RedStraight extends LinearOpMode {
 
     private static final double columnWidth = 7.63;
     private static final double wheelOffest = 4.25;
+    private static final double centerOffest = 1.25;
 
     private RelicRecoveryVuMark vuMark;
     @Override
@@ -84,14 +85,14 @@ public class RedStraight extends LinearOpMode {
                 //encoderDrive(.3,18.25,18.25, 10);
         turnWheels.left90();
         if (vuMark == RelicRecoveryVuMark.RIGHT) {
-            turnWheels.gyroDrive(.3,12 - columnWidth,turnWheels.getRobotHeading());
+            turnWheels.gyroDrive(.3,12 + centerOffest - columnWidth,turnWheels.getRobotHeading());
         }
         if (vuMark == RelicRecoveryVuMark.CENTER || vuMark == RelicRecoveryVuMark.UNKNOWN) {
-            turnWheels.gyroDrive(.3,12,turnWheels.getRobotHeading());
+            turnWheels.gyroDrive(.3,12 + centerOffest,turnWheels.getRobotHeading());
         }
         // encoderDrive(.3,30.25,30.25, 10);
         if (vuMark == RelicRecoveryVuMark.LEFT) {
-            turnWheels.gyroDrive(.3,12 + columnWidth,turnWheels.getRobotHeading());
+            turnWheels.gyroDrive(.3,12 + centerOffest + columnWidth,turnWheels.getRobotHeading());
         }
                 //encoderDrive(.3,12,12, 10);
         turnWheels.heading0();
