@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import android.graphics.Color;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -35,7 +36,7 @@ public class JewelMover {
     // bLedOn true state of the LED.
     private boolean bLedOff = false;
     /* Local OpMode members. */
-    private TurnWheels turnWheels = new TurnWheels();
+
 
     private boolean bMovedForward;
 
@@ -43,9 +44,12 @@ public class JewelMover {
 
     private String side = null;
     private HardwareMap hwMap = null;
+    private LinearOpMode opMode;
+    private TurnWheels turnWheels = new TurnWheels(opMode);
 
     /* Constructor */
-    public JewelMover() {
+    public JewelMover(LinearOpMode opMode) {
+        this.opMode = opMode;
     }
 
     /* Initialize standard Hardware interfaces */
@@ -69,13 +73,12 @@ public class JewelMover {
     }
 
     public void run() {
-
         // Set the LED on in the beginning
         colorSensor.enableLed(bLedOn);
 
         //move the arm out between the jewels so we can look at their colors
         numbersteps = (int)((MOVER_OUT - MOVER_UP) / MOVER_STEP);
-        for (int i = 0; i <= numbersteps; i++) {
+        for (int i = 0; (i <= numbersteps || opMode.opModeIsActive()); i++) {
             jewelpusher.setPosition(MOVER_UP + (i * MOVER_STEP));
             try {
                 Thread.sleep(50);
@@ -83,7 +86,6 @@ public class JewelMover {
                 e.printStackTrace();
             }
         }
-
 
         try {
             Thread.sleep(500);
@@ -111,20 +113,20 @@ public class JewelMover {
                 bMovedForward = false;
             }
         }
-        if (bMovedForward){
-            turnWheels.gyroDrive(.2,3,0);
-            //.encoderDrive(.3,-4,-4,10);
-        }
-        if (!bMovedForward){
-            turnWheels.gyroDrive(.2,-3,0);
-            //.encoderDrive(.3,4,4,10);
+        if (opMode.opModeIsActive()) {
+            if (bMovedForward) {
+                turnWheels.gyroDrive(.2, 3, 0);
+            }
+            if (!bMovedForward) {
+                turnWheels.gyroDrive(.2, -3, 0);
+            }
         }
         // Set the LED off in the end
         colorSensor.enableLed(bLedOff);
 
         //move the arm back to the starting/home position
         numbersteps = (int)((MOVER_OUT - MOVER_UP) / MOVER_STEP);
-        for (int i = 0; i <= numbersteps; i++) {
+        for (int i = 0; (i <= numbersteps || opMode.opModeIsActive()); i++) {
             jewelpusher.setPosition(MOVER_OUT - (i * MOVER_STEP));
             try {
                 Thread.sleep(50);
@@ -133,13 +135,13 @@ public class JewelMover {
             }
         }
         //move back into position
-        if (bMovedForward){
-            turnWheels.gyroDrive(.2,-3,0);
-                    //.encoderDrive(.3,-4,-4,10);
-        }
-        if (!bMovedForward){
-            turnWheels.gyroDrive(.2,3,0);
-                    //.encoderDrive(.3,4,4,10);
+        if (opMode.opModeIsActive()) {
+            if (bMovedForward) {
+                turnWheels.gyroDrive(.2, -3, 0);
+            }
+            if (!bMovedForward) {
+                turnWheels.gyroDrive(.2, 3, 0);
+            }
         }
     }
 }

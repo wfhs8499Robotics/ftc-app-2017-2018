@@ -51,8 +51,8 @@ public class DriverMode extends OpMode {
     private double rightpower;
     private double lift;
     private double relicExtension;
-    private float hypermode;
-    private float seanmode;
+    private boolean hypermode;
+    private boolean seanmode;
     private float hyperliftmode;
     private float seanliftmode;
     private float driveadjustment;
@@ -76,6 +76,8 @@ public class DriverMode extends OpMode {
     private boolean bRelicRotatorReverse = false;
     private boolean bRelicRotatorZero = false;
     private boolean bRelicRotatorOut = false;
+    private boolean bBackwardDrive = false;
+    private boolean backwardDrive = false;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -143,8 +145,9 @@ public class DriverMode extends OpMode {
         // get all the gamepad variables
         leftpower = -gamepad1.left_stick_y;
         rightpower = -gamepad1.right_stick_y;
-        hypermode = gamepad1.right_trigger;
-        seanmode = gamepad1.left_trigger;
+        hypermode = gamepad1.right_bumper;
+        seanmode = gamepad1.left_bumper;
+        bBackwardDrive = gamepad1.x;
         opengrabber = gamepad2.right_bumper;
         bRelicGrabber = gamepad2.left_bumper;
 //        squeezegrabberleft = gamepad2.left_trigger;
@@ -159,20 +162,23 @@ public class DriverMode extends OpMode {
         bRelicRotatorReverse = gamepad2.dpad_right;
         bRelicRotatorOut = gamepad2.dpad_left;
         // if either trigger has started to be pushed, wait til it goes to 0 to toggle modes
-        if (hypermode > 0){
+        if (bBackwardDrive){
+            backwardDrive = !backwardDrive;
+        }
+        if (hypermode){
             bFastButtonPushed = true;
         }
-        if (hypermode == 0 && bFastButtonPushed){
+        if (hypermode && bFastButtonPushed){
             bFastButtonPushed = false;
             bFastMode = !bFastMode;
             if (bFastMode){
                 bSeanMode = false;
             }
         }
-        if (seanmode > 0){
+        if (seanmode){
             bSeanButtonPushed = true;
         }
-        if (seanmode == 0 && bSeanButtonPushed){
+        if (seanmode && bSeanButtonPushed){
             bSeanButtonPushed = false;
             bSeanMode = !bSeanMode;
             if (bSeanMode){
@@ -267,8 +273,13 @@ public class DriverMode extends OpMode {
         }
 
         // set the power of the motor to the stick value multiplied by the adjustment
-        leftmotor.setPower(leftpower * driveadjustment);
-        rightmotor.setPower(rightpower * driveadjustment);
+        if (backwardDrive) {
+            leftmotor.setPower(-rightpower * driveadjustment);
+            rightmotor.setPower(-leftpower * driveadjustment);
+        } else {
+            leftmotor.setPower(leftpower * driveadjustment);
+            rightmotor.setPower(rightpower * driveadjustment);
+        }
         liftmotor.setPower(lift * liftadjustment);
         relicExtensionMotor.setPower(relicExtension);
 

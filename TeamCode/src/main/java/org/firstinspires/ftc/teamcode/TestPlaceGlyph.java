@@ -16,7 +16,7 @@ public class TestPlaceGlyph extends LinearOpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
-    private PlaceGlyph placeGlyph = new PlaceGlyph();
+    private PlaceGlyph placeGlyph = new PlaceGlyph(this);
 
     boolean vuMarkSet = false;
 
