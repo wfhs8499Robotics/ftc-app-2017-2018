@@ -32,10 +32,15 @@ public class PlaceGlyph {
     public PlaceGlyph() {
     }
 
-    public void init(HardwareMap hwMap) {
+    public void preinit(HardwareMap hwMap) {
         leftGrabber = hwMap.servo.get("left grabber");
         rightGrabber = hwMap.servo.get("right grabber");
         leftGrabber.setDirection(Servo.Direction.REVERSE);
+        leftGrabber.setPosition(99);
+        rightGrabber.setPosition(99);
+    }
+
+        public void init(HardwareMap hwMap) {
         //position the servo to the minimum position
         leftGrabber.setPosition(LEFT_MIN_POS);
         rightGrabber.setPosition(RIGHT_MIN_POS);

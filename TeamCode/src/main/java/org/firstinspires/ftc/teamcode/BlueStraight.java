@@ -32,6 +32,7 @@ public class BlueStraight extends LinearOpMode {
         turnWheels.init(hardwareMap);
 
         jewelMover.init(hardwareMap, "BLUE");
+        placeGlyph.preinit(hardwareMap);
 
 
         telemetry.addData("Status", "Initialized");

@@ -31,6 +31,7 @@ public class BlueLeft extends LinearOpMode {
         turnWheels.init(hardwareMap);
 
         jewelMover.init(hardwareMap, "BLUE");
+        placeGlyph.preinit(hardwareMap);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();

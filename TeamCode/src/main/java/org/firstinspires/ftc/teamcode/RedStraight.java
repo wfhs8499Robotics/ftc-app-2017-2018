@@ -32,6 +32,7 @@ public class RedStraight extends LinearOpMode {
         turnWheels.init(hardwareMap);
 
         jewelMover.init(hardwareMap, "RED");
+        placeGlyph.preinit(hardwareMap);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
