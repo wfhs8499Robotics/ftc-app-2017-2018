@@ -40,26 +40,39 @@ public class RedRight extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        vuMark = cameraOn.run();
-        telemetry.addData("VuMark", "%s visible", vuMark);
-        telemetry.update();
-
-        placeGlyph.init(hardwareMap);
-
-        jewelMover.run();
-        if (vuMark == RelicRecoveryVuMark.RIGHT) {
-            turnWheels.gyroDrive(.3,36 - wheelOffest - columnWidth,0);
+        if (opModeIsActive()) {
+            vuMark = cameraOn.run();
+            telemetry.addData("VuMark", "%s visible", vuMark);
+            telemetry.update();
         }
-        if (vuMark == RelicRecoveryVuMark.CENTER || vuMark == RelicRecoveryVuMark.UNKNOWN) {
-            turnWheels.gyroDrive(.3,36 - wheelOffest,0);
-        }
-               // encoderDrive(.3,30.25,30.25, 10);
-        if (vuMark == RelicRecoveryVuMark.LEFT) {
-            turnWheels.gyroDrive(.3,36 - wheelOffest + columnWidth,0);
-        }
-        turnWheels.right90();
 
-        placeGlyph.run(vuMark);
+        if (opModeIsActive()) {
+            placeGlyph.init(hardwareMap);
+        }
+
+        if (opModeIsActive()) {
+            jewelMover.run();
+        }
+
+        if (opModeIsActive()) {
+            if (vuMark == RelicRecoveryVuMark.RIGHT) {
+                turnWheels.gyroDrive(.3, 36 - wheelOffest - columnWidth, 0);
+            }
+            if (vuMark == RelicRecoveryVuMark.CENTER || vuMark == RelicRecoveryVuMark.UNKNOWN) {
+                turnWheels.gyroDrive(.3, 36 - wheelOffest, 0);
+            }
+            if (vuMark == RelicRecoveryVuMark.LEFT) {
+                turnWheels.gyroDrive(.3, 36 - wheelOffest + columnWidth, 0);
+            }
+        }
+
+        if (opModeIsActive()) {
+            turnWheels.right90();
+        }
+
+        if (opModeIsActive()) {
+            placeGlyph.run(vuMark);
+        }
 
         // Show the elapsed game time and wheel power
         telemetry.addData("Status", "Run Time: " + runtime.toString());

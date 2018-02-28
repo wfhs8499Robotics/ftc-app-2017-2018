@@ -41,31 +41,47 @@ public class RedStraight extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        vuMark = cameraOn.run();
-        telemetry.addData("VuMark", "%s visible", vuMark);
-        telemetry.update();
-
-        placeGlyph.init(hardwareMap);
-
-        jewelMover.run();
-
-        turnWheels.gyroDrive(.3,24 - wheelOffest,0);
-                //encoderDrive(.3,18.25,18.25, 10);
-        turnWheels.left90();
-        if (vuMark == RelicRecoveryVuMark.RIGHT) {
-            turnWheels.gyroDrive(.3,12 + centerOffest - columnWidth,turnWheels.getRobotHeading());
+        if (opModeIsActive()) {
+            vuMark = cameraOn.run();
+            telemetry.addData("VuMark", "%s visible", vuMark);
+            telemetry.update();
         }
-        if (vuMark == RelicRecoveryVuMark.CENTER || vuMark == RelicRecoveryVuMark.UNKNOWN) {
-            turnWheels.gyroDrive(.3,12 + centerOffest,turnWheels.getRobotHeading());
-        }
-        // encoderDrive(.3,30.25,30.25, 10);
-        if (vuMark == RelicRecoveryVuMark.LEFT) {
-            turnWheels.gyroDrive(.3,12 + centerOffest + columnWidth,turnWheels.getRobotHeading());
-        }
-                //encoderDrive(.3,12,12, 10);
-        turnWheels.heading0();
 
-        placeGlyph.run(vuMark);
+        if (opModeIsActive()) {
+            placeGlyph.init(hardwareMap);
+        }
+
+        if (opModeIsActive()) {
+            jewelMover.run();
+        }
+
+        if (opModeIsActive()) {
+            turnWheels.gyroDrive(.3,24 - wheelOffest,0);
+        }
+
+        if (opModeIsActive()) {
+            turnWheels.left90();
+        }
+
+        if (opModeIsActive()) {
+            if (vuMark == RelicRecoveryVuMark.RIGHT) {
+                turnWheels.gyroDrive(.3, 12 + centerOffest - columnWidth, turnWheels.getRobotHeading());
+            }
+            if (vuMark == RelicRecoveryVuMark.CENTER || vuMark == RelicRecoveryVuMark.UNKNOWN) {
+                turnWheels.gyroDrive(.3, 12 + centerOffest, turnWheels.getRobotHeading());
+            }
+            if (vuMark == RelicRecoveryVuMark.LEFT) {
+                turnWheels.gyroDrive(.3, 12 + centerOffest + columnWidth, turnWheels.getRobotHeading());
+            }
+        }
+
+        if (opModeIsActive()) {
+            turnWheels.heading0();
+        }
+
+        if (opModeIsActive()) {
+            placeGlyph.run(vuMark);
+        }
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
