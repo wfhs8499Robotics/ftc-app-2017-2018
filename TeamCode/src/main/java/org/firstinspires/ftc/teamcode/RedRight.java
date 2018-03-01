@@ -14,11 +14,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 public class RedRight extends LinearOpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private TurnWheels turnWheels = new TurnWheels(this);
+    private TurnWheels turnWheels = new TurnWheels();
 
     private CameraOn cameraOn = new CameraOn();
-    private JewelMover jewelMover = new JewelMover(this);
-    private PlaceGlyph placeGlyph = new PlaceGlyph(this);
+    private JewelMover jewelMover = new JewelMover();
+    private PlaceGlyph placeGlyph = new PlaceGlyph();
 
     private static final double columnWidth = 7.63;
     private static final double wheelOffest = 4.25;

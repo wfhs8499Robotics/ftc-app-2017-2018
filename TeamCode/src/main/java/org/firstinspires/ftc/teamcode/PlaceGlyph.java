@@ -28,12 +28,10 @@ public class PlaceGlyph {
     private static final double LIFT_MIN_POWER = 0.15;
 
     private DcMotor liftmotor = null;   // Hardware Device Object
-    private LinearOpMode opMode;
-    private TurnWheels turnWheels = new TurnWheels(opMode);
+    private TurnWheels turnWheels = new TurnWheels();
 
     /* Constructor */
-    public PlaceGlyph(LinearOpMode opMode) {
-        this.opMode = opMode;
+    public PlaceGlyph() {
     }
 
     public void preinit(HardwareMap hwMap) {
@@ -47,37 +45,26 @@ public class PlaceGlyph {
     }
 
     public void init(HardwareMap hwMap) {
-        if (opMode.opModeIsActive()) {
-            //position the servo to the minimum position
-            leftGrabber.setPosition(LEFT_MIN_POS);
-            rightGrabber.setPosition(RIGHT_MIN_POS);
-            liftmotor.setPower(LIFT_MAX_POWER);
-        }
+        //position the servo to the minimum position
+        leftGrabber.setPosition(LEFT_MIN_POS);
+        rightGrabber.setPosition(RIGHT_MIN_POS);
+        liftmotor.setPower(LIFT_MAX_POWER);
         try {
             sleep(500);   // optional pause after each move
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if (opMode.opModeIsActive()) {
-            liftmotor.setPower(LIFT_MIN_POWER);
-        }
+        liftmotor.setPower(LIFT_MIN_POWER);
     }
 
     public void run(RelicRecoveryVuMark vuMark) {
-        if (opMode.opModeIsActive()) {
-            turnWheels.gyroDrive(.3, 17, turnWheels.getRobotHeading());
-        }
+        turnWheels.gyroDrive(.3, 17, turnWheels.getRobotHeading());
 
         //position the servo to the maximum position
         liftmotor.setPower(0.00);
-        if (opMode.opModeIsActive()) {
-            leftGrabber.setPosition(LEFT_MAX_POS);
-            rightGrabber.setPosition(RIGHT_MAX_POS);
-        }
+        leftGrabber.setPosition(LEFT_MAX_POS);
+        rightGrabber.setPosition(RIGHT_MAX_POS);
         //backup
-        if (opMode.opModeIsActive()) {
-            turnWheels.gyroDrive(.3, -3, turnWheels.getRobotHeading());
-        }
-
+        turnWheels.gyroDrive(.3, -3, turnWheels.getRobotHeading());
     }
 }

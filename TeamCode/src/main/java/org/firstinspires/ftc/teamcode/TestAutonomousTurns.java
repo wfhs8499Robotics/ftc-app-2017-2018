@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  */
 @Autonomous(name = "Test Autonomous Turns", group = "Autonomous OpMode")
 public class TestAutonomousTurns extends LinearOpMode {
-    private TurnWheels turnWheels = new TurnWheels(this);
+    private TurnWheels turnWheels = new TurnWheels();
     static final double     DRIVE_SPEED             = 0.5;
     static final double     HALF_SPEED              = 0.25;
     static final double     TURN_SPEED              = 0.25;

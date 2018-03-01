@@ -44,12 +44,10 @@ public class JewelMover {
 
     private String side = null;
     private HardwareMap hwMap = null;
-    private LinearOpMode opMode;
-    private TurnWheels turnWheels = new TurnWheels(opMode);
+    private TurnWheels turnWheels = new TurnWheels();
 
     /* Constructor */
-    public JewelMover(LinearOpMode opMode) {
-        this.opMode = opMode;
+    public JewelMover() {
     }
 
     /* Initialize standard Hardware interfaces */
@@ -78,7 +76,7 @@ public class JewelMover {
 
         //move the arm out between the jewels so we can look at their colors
         numbersteps = (int)((MOVER_OUT - MOVER_UP) / MOVER_STEP);
-        for (int i = 0; (i <= numbersteps || opMode.opModeIsActive()); i++) {
+        for (int i = 0; (i <= numbersteps); i++) {
             jewelpusher.setPosition(MOVER_UP + (i * MOVER_STEP));
             try {
                 Thread.sleep(50);
@@ -113,20 +111,19 @@ public class JewelMover {
                 bMovedForward = false;
             }
         }
-        if (opMode.opModeIsActive()) {
-            if (bMovedForward) {
-                turnWheels.gyroDrive(.2, 3, 0);
-            }
-            if (!bMovedForward) {
-                turnWheels.gyroDrive(.2, -3, 0);
-            }
+
+        if (bMovedForward) {
+            turnWheels.gyroDrive(.2, 3, 0);
+        }
+        if (!bMovedForward) {
+            turnWheels.gyroDrive(.2, -3, 0);
         }
         // Set the LED off in the end
         colorSensor.enableLed(bLedOff);
 
         //move the arm back to the starting/home position
         numbersteps = (int)((MOVER_OUT - MOVER_UP) / MOVER_STEP);
-        for (int i = 0; (i <= numbersteps || opMode.opModeIsActive()); i++) {
+        for (int i = 0; (i <= numbersteps); i++) {
             jewelpusher.setPosition(MOVER_OUT - (i * MOVER_STEP));
             try {
                 Thread.sleep(50);
@@ -135,13 +132,11 @@ public class JewelMover {
             }
         }
         //move back into position
-        if (opMode.opModeIsActive()) {
-            if (bMovedForward) {
-                turnWheels.gyroDrive(.2, -3, 0);
-            }
-            if (!bMovedForward) {
-                turnWheels.gyroDrive(.2, 3, 0);
-            }
+        if (bMovedForward) {
+            turnWheels.gyroDrive(.2, -3, 0);
+        }
+        if (!bMovedForward) {
+            turnWheels.gyroDrive(.2, 3, 0);
         }
     }
 }

@@ -15,7 +15,7 @@ public class TestJewelMover extends LinearOpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
-    private JewelMover jewelMover = new JewelMover(this);
+    private JewelMover jewelMover = new JewelMover();
 
     boolean sideSet = false;
     String sideColor;
