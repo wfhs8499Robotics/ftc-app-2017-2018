@@ -7,8 +7,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
-
-
 @Autonomous (name="Red Right", group="Autonomous")
 
 public class RedRight extends LinearOpMode {
